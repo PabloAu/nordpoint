@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rational Investing</title>
+  <meta name="description" content="Evidence-based investing education. Learn how markets work and build a long-term portfolio you can manage yourself. Flat fee." />
+  <meta name="theme-color" content="#c07a2a" />
+
+  <style>
+    :root{
+      /* palette inspired by your screenshot */
+      --bg: #f4f1ea;       /* warm off-white */
+      --ink:#1f1f1f;       /* near-black */
+      --muted:#5a5a5a;
+      --line: rgba(0,0,0,.10);
+      --accent:#c07a2a;    /* warm orange */
+      --accent2:#a0641f;
+      --card:#ffffff;
+      --max: 1040px;
+      --r: 16px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:var(--font);background:var(--bg);color:var(--ink)}
+    a{color:inherit;text-decoration:none}
+    a:hover{opacity:.85}
+
+    /* top bar */
+    .nav{
+      position:sticky;top:0;z-index:50;
+      background:rgba(244,241,234,.92);
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid var(--line);
+    }
+    .navin{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 16px;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+    }
+    .brand{display:flex;align-items:center;gap:10px;min-width:220px}
+    .mark{
+      width:30px;height:30px;border-radius:12px;
+      border:1px solid var(--line);
+      display:grid;place-items:center;
+      background:linear-gradient(135deg, rgba(192,122,42,.14), rgba(192,122,42,.05));
+    }
+    .brandname{font-weight:700;letter-spacing:.2px;font-size:14px}
+    .brandtag{font-size:12px;color:var(--muted);margin-top:2px}
+
+    .links{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:flex-end}
+    .links a{font-size:13px;color:var(--muted)}
+    .links a:hover{color:var(--ink)}
+
+    .lang{
+      display:flex;align-items:center;gap:8px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:8px 10px;
+      background:rgba(255,255,255,.55);
+    }
+    select{border:0;background:transparent;font-size:13px;outline:none;cursor:pointer}
+
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;
+      border:1px solid rgba(192,122,42,.40);
+      border-radius:999px;
+      padding:10px 12px;
+      background:var(--ink);
+      color:var(--bg);
+      font-size:13px;
+    }
+    .btn.secondary{
+      background:transparent;color:var(--ink);
+      border:1px solid var(--line);
+    }
+
+    /* layout */
+    .wrap{max-width:var(--max);margin:0 auto;padding:48px 16px 80px}
+    .hero{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:22px;
+      align-items:start;
+      padding-top:14px;
+    }
+    @media(max-width:900px){.hero{grid-template-columns:1fr}}
+
+    h1{
+      margin:0;
+      font-size:56px;
+      line-height:1.02;
+      letter-spacing:-.6px;
+    }
+    @media(max-width:520px){h1{font-size:40px}}
+    .accent-underline{
+      display:inline-block;
+      position:relative;
+      padding:0 .06em;
+    }
+    .accent-underline::after{
+      content:"";
+      position:absolute;left:-2%;right:-2%;
+      height:0.33em;
+      bottom:0.08em;
+      border:3px solid var(--accent);
+      border-left:0;border-right:0;
+      border-top-left-radius:999px;border-top-right-radius:999px;
+      border-bottom-left-radius:999px;border-bottom-right-radius:999px;
+      opacity:.95;
+      pointer-events:none;
+    }
+
+    .lead{
+      margin:16px 0 0;
+      font-size:16px;
+      line-height:1.65;
+      color:var(--muted);
+      max-width:62ch;
+    }
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+    /* minimal “cards” (few, calm) */
+    .panel{
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      background:rgba(255,255,255,.62);
+      padding:16px;
+    }
+    .panel h3{margin:0 0 10px;font-size:14px;letter-spacing:.2px}
+    .panel p{margin:0;color:var(--muted);line-height:1.6;font-size:13px}
+    .hr{height:1px;background:var(--line);margin:14px 0}
+
+    section{margin-top:44px}
+    .sectionhead{
+      display:flex;align-items:flex-end;justify-content:space-between;gap:14px;
+      margin-bottom:10px;
+    }
+    .sectionhead h2{margin:0;font-size:18px}
+    .sectionhead span{color:var(--muted);font-size:13px}
+
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:900px){.two{grid-template-columns:1fr}}
+
+    ul{margin:0;padding-left:18px;color:var(--muted);line-height:1.65;font-size:13px}
+    li{margin:6px 0}
+
+    /* single clean graph (inline SVG) */
+    .chart{
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      background:rgba(255,255,255,.62);
+      padding:14px;
+    }
+    .chartcap{
+      display:flex;justify-content:space-between;gap:10px;align-items:baseline;margin-top:8px
+    }
+    .chartcap strong{font-size:13px}
+    .chartcap span{font-size:12px;color:var(--muted)}
+    .legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+    .key{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}
+    .dot{width:10px;height:10px;border-radius:999px;background:var(--muted)}
+    .dot.a{background:var(--ink)}
+    .dot.b{background:var(--accent)}
+    .dot.c{background:rgba(31,31,31,.35)}
+
+    /* about block */
+    .about{
+      display:grid;grid-template-columns:84px 1fr;gap:14px;align-items:start
+    }
+    .avatar{
+      width:84px;height:84px;border-radius:999px;
+      border:1px solid var(--line);
+      background:linear-gradient(135deg, rgba(192,122,42,.18), rgba(0,0,0,.03));
+      display:grid;place-items:center;
+      overflow:hidden;
+    }
+    .avatar span{font-weight:800;color:var(--ink);letter-spacing:.8px}
+    /* If you add a real photo, uncomment this:
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    */
+
+    /* form */
+    label{display:block;font-size:12px;color:var(--muted);margin:12px 0 6px}
+    input, textarea{
+      width:100%;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.8);
+      padding:12px 12px;
+      font-size:13px;
+      outline:none;
+    }
+    textarea{min-height:120px;resize:vertical}
+    input:focus,textarea:focus{border-color:rgba(192,122,42,.55)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:720px){.row{grid-template-columns:1fr}}
+    .tiny{font-size:12px;color:var(--muted);line-height:1.55}
+
+    footer{margin-top:54px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.6}
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="navin">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M5 14c3-6 11-6 14 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 4v16" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brandname" data-i18n="brand.title">Rational Investing</div>
+          <div class="brandtag" data-i18n="brand.sub">Evidence-based investing education • Flat fee</div>
+        </div>
+      </div>
+
+      <nav class="links">
+        <a href="#services" data-i18n="nav.services">Services</a>
+        <a href="#why" data-i18n="nav.why">Why</a>
+        <a href="#about" data-i18n="nav.about">About</a>
+        <a href="#contact" class="btn" data-i18n="nav.contact">Contact</a>
+
+        <div class="lang" title="Language">
+          <span style="font-size:12px;color:var(--muted)">EN</span>
+          <select id="langSelect" aria-label="Language selector">
+            <option value="en">EN</option>
+            <option value="de">DE</option>
+            <option value="fr">FR</option>
+            <option value="it">IT</option>
+            <option value="es">ES</option>
+          </select>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div>
+        <h1 data-i18n="hero.h1">
+          Learn how the <span class="accent-underline">market</span> works.
+        </h1>
+
+        <p class="lead" data-i18n="hero.lead">
+          If you want to understand investing from scientific evidence, build a long-term plan, and manage it yourself,
+          I can explain it clearly. You keep full control. You save money versus banks—and typically also versus robo-advisors
+          that charge ~0.5% per year. I charge a flat fee.
+        </p>
+
+        <div class="actions">
+          <a class="btn" href="#contact" data-i18n="hero.cta1">Request a call</a>
+          <a class="btn secondary" href="#why" data-i18n="hero.cta2">What you will learn</a>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <h3 data-i18n="hero.side.h">A simple promise</h3>
+        <p data-i18n="hero.side.p">
+          No forecasting. No stock picking. No timing. A robust framework, implemented correctly, that you can keep for life.
+        </p>
+        <div class="hr"></div>
+        <p class="tiny" data-i18n="hero.side.note">
+          Educational service. No custody. No discretionary management.
+        </p>
+      </aside>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="sectionhead">
+        <h2 data-i18n="services.title">Services</h2>
+        <span data-i18n="services.sub">Simple, learning-first</span>
+      </div>
+
+      <div class="two">
+        <div class="panel">
+          <h3 data-i18n="services.s1.h">1) Core Session (2 hours)</h3>
+          <p data-i18n="services.s1.p">
+            Markets, index investing, risk, expected returns, and the practical rules that make a plan sustainable.
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3 data-i18n="services.s2.h">2) Implementation</h3>
+          <p data-i18n="services.s2.p">
+            Setup at Interactive Brokers, contribution workflow, rebalancing rules, and a clean yearly checklist.
+          </p>
+        </div>
+      </div>
+
+      <div class="two" style="margin-top:14px">
+        <div class="panel">
+          <h3 data-i18n="services.s3.h">3) Taxes (Switzerland) — practical guidance</h3>
+          <p data-i18n="services.s3.p">
+            What documents to keep, how dividends/wealth reporting typically work, and how broker statements map to tax filing.
+            (Not legal advice; for binding advice, use a tax professional.)
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3 data-i18n="services.s4.h">Optional yearly check</h3>
+          <p data-i18n="services.s4.p">
+            If your life changes, we keep the plan consistent and simple. No subscriptions required.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY + GRAPH -->
+    <section id="why">
+      <div class="sectionhead">
+        <h2 data-i18n="why.title">Why this exists</h2>
+        <span data-i18n="why.sub">Education beats permanent fees</span>
+      </div>
+
+      <div class="two">
+        <div class="panel">
+          <h3 data-i18n="why.left.h">Banks & robos</h3>
+          <ul>
+            <li data-i18n="why.left.li1">Banks often charge high all-in fees and sell complex products.</li>
+            <li data-i18n="why.left.li2">Robo-advisors reduce friction, but commonly charge ~0.5%/year plus fund costs.</li>
+            <li data-i18n="why.left.li3">Fees compound against you—quietly.</li>
+          </ul>
+          <div class="hr"></div>
+          <p class="tiny" data-i18n="why.left.note">
+            This is not a moral argument. It’s an incentives and compounding argument.
+          </p>
+        </div>
+
+        <div class="chart" aria-label="Fee drag illustration">
+          <!-- Clean static illustration: same gross return, different fees -->
+          <svg viewBox="0 0 780 320" width="100%" height="auto" role="img" aria-label="Illustration of fee drag over decades">
+            <defs>
+              <linearGradient id="lineA" x1="0" x2="1">
+                <stop offset="0" stop-color="#1f1f1f"/>
+                <stop offset="1" stop-color="#1f1f1f"/>
+              </linearGradient>
+              <linearGradient id="lineB" x1="0" x2="1">
+                <stop offset="0" stop-color="#c07a2a"/>
+                <stop offset="1" stop-color="#a0641f"/>
+              </linearGradient>
+            </defs>
+
+            <rect x="16" y="16" width="748" height="270" rx="16" fill="rgba(255,255,255,.65)" stroke="rgba(0,0,0,.10)"/>
+            <!-- grid -->
+            <g stroke="rgba(0,0,0,.08)" stroke-width="1">
+              <line x1="70" y1="70" x2="740" y2="70"/>
+              <line x1="70" y1="125" x2="740" y2="125"/>
+              <line x1="70" y1="180" x2="740" y2="180"/>
+              <line x1="70" y1="235" x2="740" y2="235"/>
+              <line x1="70" y1="286" x2="740" y2="286"/>
+            </g>
+            <!-- axes -->
+            <g stroke="rgba(0,0,0,.18)" stroke-width="1.2">
+              <line x1="70" y1="286" x2="740" y2="286"/>
+              <line x1="70" y1="46" x2="70" y2="286"/>
+            </g>
+
+            <!-- curves (illustrative) -->
+            <polyline fill="none" stroke="url(#lineA)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+              points="70,286 180,258 290,222 400,182 510,138 620,92 740,52"/>
+            <polyline fill="none" stroke="url(#lineB)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+              points="70,286 180,265 290,240 400,212 510,181 620,148 740,118"/>
+
+            <circle cx="740" cy="52" r="5" fill="#1f1f1f"/>
+            <circle cx="740" cy="118" r="5" fill="#c07a2a"/>
+
+            <!-- minimal labels -->
+            <g fill="rgba(0,0,0,.60)" font-size="12" font-family="ui-sans-serif, system-ui">
+              <text x="36" y="289">0</text>
+              <text x="26" y="239">1x</text>
+              <text x="26" y="184">2x</text>
+              <text x="26" y="129">3x</text>
+              <text x="26" y="74">4x</text>
+
+              <text x="70" y="310">0y</text>
+              <text x="290" y="310">10y</text>
+              <text x="510" y="310">20y</text>
+              <text x="720" y="310">30y</text>
+            </g>
+          </svg>
+
+          <div class="chartcap">
+            <strong data-i18n="why.chart.h">Illustration</strong>
+            <span data-i18n="why.chart.s">Same gross return. Different fees. Different outcome.</span>
+          </div>
+          <div class="legend">
+            <div class="key"><span class="dot a"></span><span data-i18n="why.chart.l1">No advisor fee</span></div>
+            <div class="key"><span class="dot b"></span><span data-i18n="why.chart.l2">~0.5%/year fee</span></div>
+            <div class="key"><span class="dot c"></span><span data-i18n="why.chart.l3">Illustration, not a forecast</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="sectionhead">
+        <h2 data-i18n="about.title">About</h2>
+        <span data-i18n="about.sub">Scientist • investor • educator</span>
+      </div>
+
+      <div class="panel">
+        <div class="about">
+          <div class="avatar" aria-label="Profile photo placeholder">
+            <!-- Option A (placeholder initials): -->
+            <span>PA</span>
+
+            <!-- Option B (your photo): place 'pablo.jpg' next to index.html and uncomment below
+            <img src="Pablo.jpg" alt="Profile photo" />
+            -->
+          </div>
+
+          <div>
+            <h3 data-i18n="about.h">Who I am</h3>
+            <p data-i18n="about.p">
+              I’m a scientist at ETH Zürich (biophysics). I’m also passionate about economics and long-term investing,
+              and I spent years studying the evidence behind how markets work. I teach a simple, rigorous framework that clients can keep for life.
+            </p>
+            <div class="hr"></div>
+            <p class="tiny">
+              <a href="#" data-i18n="about.linkedinText" id="linkedinLink">LinkedIn</a>
+              <span class="tiny" style="margin-left:8px" data-i18n="about.linkedinNote">(add your link)</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="sectionhead">
+        <h2 data-i18n="contact.title">Contact</h2>
+        <span data-i18n="contact.sub">Fees discussed on the call</span>
+      </div>
+
+      <div class="two">
+        <div class="panel">
+          <h3 data-i18n="contact.h">Send a message</h3>
+          <p class="tiny" data-i18n="contact.p">
+            Tell me your horizon, current approach, and what you want to learn.
+          </p>
+
+          <form action="https://formspree.io/f/mnjqadnq" method="POST">
+            <div class="row">
+              <div>
+                <label data-i18n="contact.nameL">Name</label>
+                <input name="name" required data-i18n-ph="contact.nameP" placeholder="Your name" />
+              </div>
+              <div>
+                <label data-i18n="contact.emailL">Email</label>
+                <input name="email" type="email" required data-i18n-ph="contact.emailP" placeholder="you@email.com" />
+              </div>
+            </div>
+
+            <label data-i18n="contact.msgL">Message</label>
+            <textarea name="message" required data-i18n-ph="contact.msgP"
+              placeholder="Example: 15–20 year horizon, monthly investing, want a simple ETF plan and a tax/reporting checklist."></textarea>
+
+            <div class="actions" style="margin-top:12px">
+              <button class="btn" type="submit" data-i18n="contact.send">Send</button>
+              <span class="tiny" data-i18n="contact.note">Formspree may ask you to confirm your email on first use.</span>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel">
+          <h3 data-i18n="legal.h">Important notice</h3>
+          <p class="tiny" data-i18n="legal.p">
+            Educational and informational service only. No discretionary management, no custody, no commissions, no promises of returns.
+            You retain full responsibility, control, and custody of your assets.
+          </p>
+          <div class="hr"></div>
+          <p class="tiny" data-i18n="imprint">
+            Imprint: add your legal name/entity and contact details as appropriate for your setup.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="year"></span> <span data-i18n="brand.title">Rational Investing</span></div>
+    </footer>
+  </main>
+
+  <script>
+    // 1) Put your LinkedIn URL here:
+    const LINKEDIN_URL = "https://www.linkedin.com/in/pablo-aurelio/";
+
+    const I18N = {
+      en: {
+        "brand.title":"Rational Investing",
+        "brand.sub":"Evidence-based investing education • Flat fee",
+
+        "nav.services":"Services",
+        "nav.why":"Why",
+        "nav.about":"About",
+        "nav.contact":"Contact",
+
+        "hero.h1":"Learn how the market works.",
+        "hero.lead":"If you want to understand investing from scientific evidence, build a long-term plan, and manage it yourself, I can explain it clearly. You keep full control. You save money versus banks—and typically also versus robo-advisors that charge ~0.5% per year. I charge a flat fee.",
+        "hero.cta1":"Request a call",
+        "hero.cta2":"What you will learn",
+        "hero.side.h":"A simple promise",
+        "hero.side.p":"No forecasting. No stock picking. No timing. A robust framework, implemented correctly, that you can keep for life.",
+        "hero.side.note":"Educational service. No custody. No discretionary management.",
+
+        "services.title":"Services",
+        "services.sub":"Simple, learning-first",
+        "services.s1.h":"1) Core Session (2 hours)",
+        "services.s1.p":"Markets, index investing, risk, expected returns, and the practical rules that make a plan sustainable.",
+        "services.s2.h":"2) Implementation",
+        "services.s2.p":"Setup at Interactive Brokers, contribution workflow, rebalancing rules, and a clean yearly checklist.",
+        "services.s3.h":"3) Taxes (Switzerland) — practical guidance",
+        "services.s3.p":"What documents to keep, how dividends/wealth reporting typically work, and how broker statements map to tax filing. (Not legal advice; for binding advice, use a tax professional.)",
+        "services.s4.h":"Optional yearly check",
+        "services.s4.p":"If your life changes, we keep the plan consistent and simple. No subscriptions required.",
+
+        "why.title":"Why this exists",
+        "why.sub":"Education beats permanent fees",
+        "why.left.h":"Banks & robos",
+        "why.left.li1":"Banks often charge high all-in fees and sell complex products.",
+        "why.left.li2":"Robo-advisors reduce friction, but commonly charge ~0.5%/year plus fund costs.",
+        "why.left.li3":"Fees compound against you—quietly.",
+        "why.left.note":"This is not a moral argument. It’s an incentives and compounding argument.",
+        "why.chart.h":"Illustration",
+        "why.chart.s":"Same gross return. Different fees. Different outcome.",
+        "why.chart.l1":"No advisor fee",
+        "why.chart.l2":"~0.5%/year fee",
+        "why.chart.l3":"Illustration, not a forecast",
+
+        "about.title":"About",
+        "about.sub":"Scientist • investor • educator",
+        "about.h":"Who I am",
+        "about.p":"I’m a scientist at ETH Zürich (biophysics). I’m also passionate about economics and long-term investing, and I spent years studying the evidence behind how markets work. I teach a simple, rigorous framework that clients can keep for life.",
+        "about.linkedinText":"LinkedIn",
+        "about.linkedinNote":"(add your link)",
+
+        "contact.title":"Contact",
+        "contact.sub":"Fees discussed on the call",
+        "contact.h":"Send a message",
+        "contact.p":"Tell me your horizon, current approach, and what you want to learn.",
+        "contact.nameL":"Name",
+        "contact.emailL":"Email",
+        "contact.msgL":"Message",
+        "contact.send":"Send",
+        "contact.note":"Formspree may ask you to confirm your email on first use.",
+        "contact.nameP":"Your name",
+        "contact.emailP":"you@email.com",
+        "contact.msgP":"Example: 15–20 year horizon, monthly investing, want a simple ETF plan and a tax/reporting checklist.",
+
+        "legal.h":"Important notice",
+        "legal.p":"Educational and informational service only. No discretionary management, no custody, no commissions, no promises of returns. You retain full responsibility, control, and custody of your assets.",
+        "imprint":"Imprint: add your legal name/entity and contact details as appropriate for your setup."
+      },
+
+      de: {
+        "brand.title":"Rational Investing",
+        "brand.sub":"Evidenzbasiertes Investieren • Pauschalhonorar",
+
+        "nav.services":"Leistungen",
+        "nav.why":"Warum",
+        "nav.about":"Über mich",
+        "nav.contact":"Kontakt",
+
+        "hero.h1":"Verstehen, wie der Markt funktioniert.",
+        "hero.lead":"Wenn Sie Investieren evidenzbasiert verstehen, einen langfristigen Plan aufbauen und ihn selbst umsetzen möchten, erkläre ich es klar und strukturiert. Sie behalten die volle Kontrolle. Sie sparen Geld gegenüber Banken—und meist auch gegenüber Robo-Advisors mit ~0,5% p.a. Ich arbeite mit Pauschalhonorar.",
+        "hero.cta1":"Gespräch anfragen",
+        "hero.cta2":"Was Sie lernen",
+        "hero.side.h":"Ein einfaches Versprechen",
+        "hero.side.p":"Keine Prognosen. Kein Stock-Picking. Kein Timing. Ein robustes Framework, sauber umgesetzt, das Sie ein Leben lang nutzen können.",
+        "hero.side.note":"Bildungsangebot. Keine Verwahrung. Keine Vermögensverwaltung.",
+
+        "services.title":"Leistungen",
+        "services.sub":"Einfach, lernorientiert",
+        "services.s1.h":"1) Kern-Session (2 Stunden)",
+        "services.s1.p":"Märkte, Index-Investing, Risiko, erwartete Renditen und die Regeln, die einen Plan durchhaltbar machen.",
+        "services.s2.h":"2) Umsetzung",
+        "services.s2.p":"Einrichtung bei Interactive Brokers, Einzahlungs-Workflow, Rebalancing-Regeln, jährliche Checkliste.",
+        "services.s3.h":"3) Steuern (Schweiz) — praktisch",
+        "services.s3.p":"Welche Dokumente wichtig sind, wie Dividenden/Vermögen typischerweise erfasst werden und wie Broker-Statements zur Steuererklärung passen. (Keine Rechtsberatung.)",
+        "services.s4.h":"Optionaler Jahres-Check",
+        "services.s4.p":"Bei Lebensänderungen halten wir den Plan konsistent und einfach. Keine Abos.",
+
+        "why.title":"Warum das existiert",
+        "why.sub":"Bildung schlägt Dauergebühren",
+        "why.left.h":"Banken & Robos",
+        "why.left.li1":"Banken haben oft hohe Gesamtkosten und komplexe Produkte.",
+        "why.left.li2":"Robo-Advisors senken Aufwand, verlangen aber häufig ~0,5% p.a. plus Fondskosten.",
+        "why.left.li3":"Gebühren wirken still gegen Sie—über Zinseszins.",
+        "why.left.note":"Kein Moralargument. Es geht um Anreize und Zinseszinseffekt.",
+        "why.chart.h":"Illustration",
+        "why.chart.s":"Gleiche Bruttorendite. Andere Gebühren. Anderes Ergebnis.",
+        "why.chart.l1":"Keine Beratergebühr",
+        "why.chart.l2":"~0,5% p.a. Gebühr",
+        "why.chart.l3":"Illustration, keine Prognose",
+
+        "about.title":"Über mich",
+        "about.sub":"Wissenschaftler • Investor • Lehrer",
+        "about.h":"Wer ich bin",
+        "about.p":"Ich bin Wissenschaftler an der ETH Zürich (Biophysik). Außerdem interessiere ich mich seit Jahren intensiv für Ökonomie und langfristiges Investieren und habe die Evidenz dazu systematisch studiert. Ich vermittle ein einfaches, rigoroses Framework für lebenslange Selbstständigkeit.",
+        "about.linkedinText":"LinkedIn",
+        "about.linkedinNote":"(Link ergänzen)",
+
+        "contact.title":"Kontakt",
+        "contact.sub":"Honorar im Gespräch",
+        "contact.h":"Nachricht senden",
+        "contact.p":"Horizont, aktueller Ansatz und Lernziel genügen.",
+        "contact.nameL":"Name",
+        "contact.emailL":"E-Mail",
+        "contact.msgL":"Nachricht",
+        "contact.send":"Senden",
+        "contact.note":"Formspree kann beim ersten Mal eine Bestätigung verlangen.",
+        "contact.nameP":"Ihr Name",
+        "contact.emailP":"you@email.com",
+        "contact.msgP":"Beispiel: 15–20 Jahre Horizont, monatlich investieren, ETF-Plan + Steuer/Reporting-Checkliste.",
+
+        "legal.h":"Hinweis",
+        "legal.p":"Nur Bildung/Information. Keine Vermögensverwaltung, keine Verwahrung, keine Provisionen, keine Renditeversprechen. Verantwortung, Kontrolle und Verwahrung bleiben bei Ihnen.",
+        "imprint":"Impressum: Name/Firma und Kontaktdaten ergänzen."
+      },
+
+      fr: {
+        "brand.title":"Rational Investing",
+        "brand.sub":"Investissement fondé sur les preuves • Forfait",
+
+        "nav.services":"Services",
+        "nav.why":"Pourquoi",
+        "nav.about":"À propos",
+        "nav.contact":"Contact",
+
+        "hero.h1":"Comprendre comment le marché fonctionne.",
+        "hero.lead":"Si vous voulez comprendre l’investissement à partir des preuves scientifiques, construire un plan de long terme et le gérer vous-même, je peux l’expliquer clairement. Vous gardez le contrôle. Vous économisez vs les banques—et souvent vs les robo-advisors (~0,5%/an). Je facture au forfait.",
+        "hero.cta1":"Demander un appel",
+        "hero.cta2":"Ce que vous apprendrez",
+        "hero.side.h":"Une promesse simple",
+        "hero.side.p":"Pas de prévisions. Pas de stock picking. Pas de timing. Un cadre robuste, bien implémenté, pour la vie.",
+        "hero.side.note":"Service éducatif. Pas de garde. Pas de gestion discrétionnaire.",
+
+        "services.title":"Services",
+        "services.sub":"Simple, orienté apprentissage",
+        "services.s1.h":"1) Session cœur (2 heures)",
+        "services.s1.p":"Marchés, index, risque, rendements attendus, règles pratiques pour tenir un plan.",
+        "services.s2.h":"2) Implémentation",
+        "services.s2.p":"Mise en place chez Interactive Brokers, contributions, rééquilibrage, checklist annuelle.",
+        "services.s3.h":"3) Fiscalité (Suisse) — pratique",
+        "services.s3.p":"Documents à conserver, principes sur dividendes/fortune, lien avec les relevés du broker. (Pas un avis juridique.)",
+        "services.s4.h":"Bilan annuel optionnel",
+        "services.s4.p":"Si la vie change, on garde le plan simple et cohérent. Pas d’abonnement.",
+
+        "why.title":"Pourquoi",
+        "why.sub":"L’éducation bat les frais permanents",
+        "why.left.h":"Banques & robos",
+        "why.left.li1":"Les banques ont souvent des coûts élevés et des produits complexes.",
+        "why.left.li2":"Les robo-advisors réduisent la friction, mais facturent souvent ~0,5%/an + coûts des fonds.",
+        "why.left.li3":"Les frais capitalisent contre vous.",
+        "why.left.note":"Ce n’est pas moral : c’est une question d’incitations et de capitalisation.",
+        "why.chart.h":"Illustration",
+        "why.chart.s":"Même rendement brut. Frais différents. Résultat différent.",
+        "why.chart.l1":"Sans frais conseiller",
+        "why.chart.l2":"~0,5%/an de frais",
+        "why.chart.l3":"Illustration, pas une prévision",
+
+        "about.title":"À propos",
+        "about.sub":"Scientifique • investisseur • pédagogue",
+        "about.h":"Qui je suis",
+        "about.p":"Je suis scientifique à l’ETH Zürich (biophysique). Je suis aussi passionné d’économie et d’investissement long terme, et j’ai étudié pendant des années les preuves sur le fonctionnement des marchés. J’enseigne un cadre simple et rigoureux, que vous pouvez garder à vie.",
+        "about.linkedinText":"LinkedIn",
+        "about.linkedinNote":"(ajouter le lien)",
+
+        "contact.title":"Contact",
+        "contact.sub":"Tarifs discutés à l’appel",
+        "contact.h":"Envoyer un message",
+        "contact.p":"Horizon, approche actuelle, et ce que vous voulez apprendre.",
+        "contact.nameL":"Nom",
+        "contact.emailL":"Email",
+        "contact.msgL":"Message",
+        "contact.send":"Envoyer",
+        "contact.note":"Formspree peut demander une confirmation au premier envoi.",
+        "contact.nameP":"Votre nom",
+        "contact.emailP":"you@email.com",
+        "contact.msgP":"Exemple : horizon 15–20 ans, investissement mensuel, plan ETF + checklist fiscalité/reporting.",
+
+        "legal.h":"Avis",
+        "legal.p":"Service éducatif uniquement. Pas de gestion discrétionnaire, pas de garde, pas de commissions, pas de promesse. Vous gardez responsabilité, contrôle et garde.",
+        "imprint":"Mentions légales : ajoutez nom/entité et coordonnées."
+      },
+
+      it: {
+        "brand.title":"Rational Investing",
+        "brand.sub":"Investimento basato su evidenza • Forfait",
+
+        "nav.services":"Servizi",
+        "nav.why":"Perché",
+        "nav.about":"Chi sono",
+        "nav.contact":"Contatto",
+
+        "hero.h1":"Capire come funziona il mercato.",
+        "hero.lead":"Se vuoi capire l’investimento tramite evidenza scientifica, costruire un piano di lungo periodo e gestirlo da solo, posso spiegartelo in modo chiaro. Mantieni il controllo. Risparmi rispetto alle banche—e spesso anche rispetto ai robo-advisor (~0,5%/anno). Lavoro a tariffa fissa.",
+        "hero.cta1":"Richiedi una call",
+        "hero.cta2":"Cosa impari",
+        "hero.side.h":"Una promessa semplice",
+        "hero.side.p":"Niente previsioni. Niente stock picking. Niente timing. Un framework robusto, implementato bene, per tutta la vita.",
+        "hero.side.note":"Servizio educativo. Nessuna custodia. Nessuna gestione discrezionale.",
+
+        "services.title":"Servizi",
+        "services.sub":"Semplice, orientato all’apprendimento",
+        "services.s1.h":"1) Sessione core (2 ore)",
+        "services.s1.p":"Mercati, indici, rischio, rendimenti attesi e regole pratiche per sostenere un piano.",
+        "services.s2.h":"2) Implementazione",
+        "services.s2.p":"Setup su Interactive Brokers, contributi, ribilanciamento, checklist annuale.",
+        "services.s3.h":"3) Tasse (Svizzera) — pratica",
+        "services.s3.p":"Documenti da conservare, logica su dividendi/patrimonio e collegamento ai report del broker. (Non è consulenza legale.)",
+        "services.s4.h":"Check annuale opzionale",
+        "services.s4.p":"Se cambia la vita, manteniamo il piano semplice e coerente. Nessun abbonamento.",
+
+        "why.title":"Perché",
+        "why.sub":"Educazione > commissioni permanenti",
+        "why.left.h":"Banche & robos",
+        "why.left.li1":"Le banche spesso hanno costi elevati e prodotti complessi.",
+        "why.left.li2":"I robo-advisor riducono frizione, ma spesso costano ~0,5%/anno + costi fondi.",
+        "why.left.li3":"Le fee capitalizzano contro di te.",
+        "why.left.note":"Non è morale: è incentivi + capitalizzazione.",
+        "why.chart.h":"Illustrazione",
+        "why.chart.s":"Stesso rendimento lordo. Fee diverse. Esito diverso.",
+        "why.chart.l1":"Senza fee advisor",
+        "why.chart.l2":"~0,5%/anno fee",
+        "why.chart.l3":"Illustrazione, non previsione",
+
+        "about.title":"Chi sono",
+        "about.sub":"Scienziato • investitore • educatore",
+        "about.h":"Chi sono",
+        "about.p":"Sono uno scienziato all’ETH Zürich (biofisica). Sono anche appassionato di economia e investimento di lungo periodo e ho studiato per anni l’evidenza su come funzionano i mercati. Insegno un framework semplice e rigoroso che puoi usare per tutta la vita.",
+        "about.linkedinText":"LinkedIn",
+        "about.linkedinNote":"(aggiungi il link)",
+
+        "contact.title":"Contatto",
+        "contact.sub":"Tariffe discusse in call",
+        "contact.h":"Invia un messaggio",
+        "contact.p":"Orizzonte, approccio attuale e cosa vuoi imparare.",
+        "contact.nameL":"Nome",
+        "contact.emailL":"Email",
+        "contact.msgL":"Messaggio",
+        "contact.send":"Invia",
+        "contact.note":"Formspree può chiedere conferma al primo invio.",
+        "contact.nameP":"Il tuo nome",
+        "contact.emailP":"you@email.com",
+        "contact.msgP":"Esempio: orizzonte 15–20 anni, contributo mensile, piano ETF + checklist tasse/reporting.",
+
+        "legal.h":"Avviso",
+        "legal.p":"Solo servizio educativo. Nessuna gestione discrezionale, nessuna custodia, nessuna commissione, nessuna promessa. Responsabilità, controllo e custodia restano tuoi.",
+        "imprint":"Imprint: aggiungi nome/entità e contatti."
+      },
+
+      es: {
+        "brand.title":"Rational Investing",
+        "brand.sub":"Inversión basada en evidencia • Tarifa fija",
+
+        "nav.services":"Servicios",
+        "nav.why":"Por qué",
+        "nav.about":"Sobre mí",
+        "nav.contact":"Contacto",
+
+        "hero.h1":"Entender cómo funciona el mercado.",
+        "hero.lead":"Si quieres entender la inversión desde la evidencia científica, construir un plan a largo plazo y gestionarlo tú mismo, puedo explicártelo muy claro. Mantienes el control. Ahorras frente a los bancos—y normalmente también frente a roboadvisors (~0,5%/año). Yo cobro una tarifa plana.",
+        "hero.cta1":"Pedir una llamada",
+        "hero.cta2":"Qué aprenderás",
+        "hero.side.h":"Una promesa simple",
+        "hero.side.p":"Sin predicciones. Sin stock picking. Sin timing. Un marco robusto, bien implementado, para toda la vida.",
+        "hero.side.note":"Servicio educativo. Sin custodia. Sin gestión discrecional.",
+
+        "services.title":"Servicios",
+        "services.sub":"Simple, centrado en aprender",
+        "services.s1.h":"1) Sesión central (2 horas)",
+        "services.s1.p":"Mercados, indexación, riesgo, rentabilidad esperada y reglas prácticas para sostener un plan.",
+        "services.s2.h":"2) Implementación",
+        "services.s2.p":"Setup en Interactive Brokers, flujo de aportaciones, rebalanceo y checklist anual.",
+        "services.s3.h":"3) Impuestos (Suiza) — guía práctica",
+        "services.s3.p":"Qué documentos guardar, cómo suelen funcionar dividendos/patrimonio y cómo encaja el extracto del broker con la declaración. (No es asesoría legal.)",
+        "services.s4.h":"Revisión anual opcional",
+        "services.s4.p":"Si cambia tu vida, mantenemos el plan simple y coherente. Sin suscripciones.",
+
+        "why.title":"Por qué existe",
+        "why.sub":"Aprender es mejor que pagar un porcentaje para siempre",
+        "why.left.h":"Bancos y robos",
+        "why.left.li1":"Los bancos suelen tener costes altos y productos complejos.",
+        "why.left.li2":"Los roboadvisors reducen fricción, pero suelen cobrar ~0,5%/año + costes de fondos.",
+        "why.left.li3":"Las comisiones se acumulan contra ti.",
+        "why.left.note":"No es un juicio moral. Es incentivos + interés compuesto.",
+        "why.chart.h":"Ilustración",
+        "why.chart.s":"Misma rentabilidad bruta. Comisiones distintas. Resultado distinto.",
+        "why.chart.l1":"Sin fee asesor",
+        "why.chart.l2":"~0,5%/año fee",
+        "why.chart.l3":"Ilustración, no previsión",
+
+        "about.title":"Sobre mí",
+        "about.sub":"Científico • inversor • educador",
+        "about.h":"Quién soy",
+        "about.p":"Soy científico en ETH Zürich (biofísica). También me apasionan la economía y la inversión a largo plazo, y dediqué años a estudiar la evidencia sobre cómo funcionan los mercados. Enseño un marco simple y riguroso que puedes mantener toda la vida.",
+        "about.linkedinText":"LinkedIn",
+        "about.linkedinNote":"(añade tu enlace)",
+
+        "contact.title":"Contacto",
+        "contact.sub":"Las tarifas se comentan en la llamada",
+        "contact.h":"Enviar mensaje",
+        "contact.p":"Horizonte, enfoque actual y qué quieres aprender.",
+        "contact.nameL":"Nombre",
+        "contact.emailL":"Email",
+        "contact.msgL":"Mensaje",
+        "contact.send":"Enviar",
+        "contact.note":"Formspree puede pedir confirmación en el primer envío.",
+        "contact.nameP":"Tu nombre",
+        "contact.emailP":"you@email.com",
+        "contact.msgP":"Ejemplo: horizonte 15–20 años, aportación mensual, plan ETF + checklist de impuestos/reporting.",
+
+        "legal.h":"Aviso",
+        "legal.p":"Servicio educativo e informativo. Sin gestión discrecional, sin custodia, sin comisiones, sin promesas. Responsabilidad, control y custodia siempre tuyos.",
+        "imprint":"Imprint: añade nombre/entidad y datos de contacto."
+      }
+    };
+
+    function applyLang(lang){
+      const dict = I18N[lang] || I18N.en;
+
+      document.querySelectorAll("[data-i18n]").forEach(el=>{
+        const k = el.getAttribute("data-i18n");
+        if(dict[k] !== undefined) el.textContent = dict[k];
+      });
+
+      document.querySelectorAll("[data-i18n-ph]").forEach(el=>{
+        const k = el.getAttribute("data-i18n-ph");
+        if(dict[k] !== undefined) el.setAttribute("placeholder", dict[k]);
+      });
+
+      document.documentElement.lang = lang;
+      localStorage.setItem("ri_lang", lang);
+    }
+
+    // init language
+    const saved = localStorage.getItem("ri_lang");
+    const browserLang = (navigator.language || "en").slice(0,2);
+    const initial = saved || (I18N[browserLang] ? browserLang : "en");
+    const select = document.getElementById("langSelect");
+    select.value = initial;
+    applyLang(initial);
+    select.addEventListener("change", e => applyLang(e.target.value));
+
+    // year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // LinkedIn link
+    const l = document.getElementById("linkedinLink");
+    l.href = LINKEDIN_URL;
+    l.target = "_blank";
+    l.rel = "noopener noreferrer";
+  </script>
+</body>
+</html>

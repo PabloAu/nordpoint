@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rational Investing</title>
+  <meta name="description" content="Independent, evidence-based investing education and portfolio design. Flat fee. Long-term. No custody, no commissions, no AUM fees." />
+  <meta name="theme-color" content="#0f766e" />
+
+  <style>
+    :root{
+      --bg:#070b15;
+      --panel:#0c1426;
+      --panel2:#0b1222;
+      --text:#e7edf7;
+      --muted:#a9b6cf;
+      --line:rgba(231,237,247,.12);
+      --brand:#12b3a8;
+      --brand2:#0f766e;
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --r:18px;
+      --max: 1080px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;padding:0;font-family:var(--font);
+      color:var(--text);
+      background:
+        radial-gradient(900px 420px at 15% 0%, rgba(18,179,168,.16), transparent 60%),
+        radial-gradient(800px 380px at 90% 6%, rgba(15,118,110,.16), transparent 62%),
+        linear-gradient(180deg, #050812 0%, var(--bg) 45%, #040712 100%);
+    }
+    a{color:inherit;text-decoration:none}
+    .nav{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter: blur(10px);
+      background:rgba(5,8,18,.62);
+      border-bottom:1px solid var(--line);
+      padding:14px 16px;
+    }
+    .navin{
+      max-width:var(--max);margin:0 auto;
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
+    }
+    .brand{display:flex;align-items:center;gap:10px;min-width:240px}
+    .logo{
+      width:34px;height:34px;border-radius:12px;
+      background:linear-gradient(135deg,var(--brand),var(--brand2));
+      box-shadow:0 10px 24px rgba(18,179,168,.22);
+      display:grid;place-items:center;flex:0 0 auto;
+    }
+    .brandtitle{font-weight:700;font-size:14px;line-height:1.1}
+    .brandsub{font-size:11px;color:var(--muted);margin-top:2px}
+
+    .navlinks{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:flex-end}
+    .navlinks a{color:var(--muted);font-size:13px}
+    .navlinks a:hover{color:var(--text)}
+    .lang{
+      display:flex;align-items:center;gap:8px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      border-radius:14px;
+      padding:8px 10px;
+    }
+    select{background:transparent;color:var(--text);border:0;outline:none;font-size:13px;cursor:pointer}
+    select option{color:#061024}
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;
+      border:1px solid rgba(18,179,168,.35);
+      background:linear-gradient(135deg, rgba(18,179,168,.16), rgba(15,118,110,.08));
+      color:var(--text);
+      padding:11px 13px;border-radius:14px;
+      box-shadow:0 12px 28px rgba(0,0,0,.22);
+      cursor:pointer;
+    }
+    .btn:hover{border-color:rgba(18,179,168,.6);transform:translateY(-1px)}
+    .btn:active{transform:translateY(0px)}
+    .wrap{max-width:var(--max);margin:0 auto;padding:34px 16px 80px}
+
+    .hero{
+      display:grid;grid-template-columns:1.15fr .85fr;gap:16px;align-items:start;
+      padding:20px 0 6px;
+    }
+    @media(max-width:920px){.hero{grid-template-columns:1fr}}
+    .kicker{
+      color:var(--brand);
+      font-weight:700;letter-spacing:.7px;text-transform:uppercase;font-size:12px
+    }
+    h1{font-size:46px;line-height:1.04;margin:10px 0 10px;letter-spacing:-.3px}
+    @media(max-width:520px){h1{font-size:36px}}
+    .lead{color:var(--muted);font-size:17px;line-height:1.6;margin:0}
+    .card{
+      background:rgba(12,20,38,.72);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      box-shadow:var(--shadow);
+    }
+    .panel{padding:18px}
+    .tag{
+      display:inline-block;font-size:12px;color:var(--brand);
+      border:1px solid rgba(18,179,168,.35);
+      padding:6px 10px;border-radius:999px;
+      background:rgba(18,179,168,.10);
+    }
+    .hr{height:1px;background:var(--line);margin:14px 0}
+    .tiny{font-size:12px;color:var(--muted);line-height:1.55}
+    .muted{color:var(--muted)}
+    .pillrow{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 0}
+    .pill{
+      border:1px solid var(--line);
+      color:var(--muted);
+      padding:7px 10px;border-radius:999px;font-size:12px;
+      background:rgba(255,255,255,.03);
+    }
+
+    section{margin-top:44px}
+    .sectionhead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:12px}
+    .sectionhead h2{margin:0;font-size:22px;letter-spacing:-.2px}
+    .sectionhead span{color:var(--muted);font-size:13px}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:920px){.two{grid-template-columns:1fr}}
+
+    ul{margin:10px 0 0;padding-left:18px;color:var(--muted);line-height:1.6}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    @media(max-width:920px){.grid3{grid-template-columns:1fr}}
+    .box h3{margin:0 0 8px;font-size:15px}
+    .box p{margin:0;color:var(--muted);line-height:1.55;font-size:13px}
+
+    /* charts */
+    .chartwrap{padding:14px}
+    .svgbox{width:100%;height:auto;display:block}
+    .chartcap{display:flex;justify-content:space-between;gap:10px;align-items:baseline;margin-top:10px}
+    .chartcap strong{font-size:13px}
+    .chartcap span{font-size:12px;color:var(--muted)}
+    .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .key{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:12px}
+    .dot{width:10px;height:10px;border-radius:999px;background:var(--muted)}
+    .dot.a{background:rgba(18,179,168,.9)}
+    .dot.b{background:rgba(231,237,247,.65)}
+    .dot.c{background:rgba(15,118,110,.85)}
+    .dot.d{background:rgba(231,237,247,.28)}
+
+    /* form */
+    label{display:block;font-size:12px;color:var(--muted);margin:12px 0 6px}
+    input, textarea{
+      width:100%;border-radius:14px;border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      color:var(--text);padding:12px 12px;font-size:13px;outline:none
+    }
+    textarea{min-height:120px;resize:vertical}
+    input:focus,textarea:focus{border-color:rgba(18,179,168,.6)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:700px){.row{grid-template-columns:1fr}}
+    .footer{margin-top:48px;color:var(--muted);font-size:12px;line-height:1.6}
+    .foot{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+    @media(max-width:920px){.foot{grid-template-columns:1fr}}
+    .notice{
+      padding:14px;border-radius:14px;border:1px solid var(--line);
+      background:rgba(255,255,255,.03)
+    }
+  </style>
+</head>
+
+<body>
+  <div class="nav">
+    <div class="navin">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M5 14c3-6 11-6 14 0" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 4v16" stroke="white" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brandtitle" data-i18n="brand.title">Rational Investing</div>
+          <div class="brandsub" data-i18n="brand.sub">Independent, evidence-based, flat fee</div>
+        </div>
+      </div>
+
+      <div class="navlinks">
+        <a href="#evidence" data-i18n="nav.evidence">Evidence</a>
+        <a href="#services" data-i18n="nav.services">Services</a>
+        <a href="#costs" data-i18n="nav.costs">Costs</a>
+        <a href="#taxes" data-i18n="nav.taxes">Taxes</a>
+        <a href="#contact" class="btn" data-i18n="nav.contact">Contact</a>
+
+        <div class="lang" title="Language">
+          <span style="font-size:12px;color:var(--muted)">🌐</span>
+          <select id="langSelect" aria-label="Language selector">
+            <option value="en">EN</option>
+            <option value="de">DE</option>
+            <option value="fr">FR</option>
+            <option value="it">IT</option>
+            <option value="es">ES</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div>
+        <div class="kicker" data-i18n="hero.kicker">A learning-first investment service</div>
+        <h1 data-i18n="hero.h1">Understand markets. Build a portfolio you can run for decades.</h1>
+        <p class="lead" data-i18n="hero.lead">
+          I help long-term investors learn the evidence, design a robust allocation, and implement it correctly—
+          without percentage-based advisory fees.
+        </p>
+
+        <div class="pillrow" role="list">
+          <span class="pill" data-i18n="hero.p1">Flat fee (no AUM)</span>
+          <span class="pill" data-i18n="hero.p2">No custody</span>
+          <span class="pill" data-i18n="hero.p3">No trading signals</span>
+          <span class="pill" data-i18n="hero.p4">Implementation + rules</span>
+        </div>
+      </div>
+
+      <aside class="card panel">
+        <span class="tag" data-i18n="about.tag">About</span>
+        <div class="hr"></div>
+        <p class="tiny" data-i18n="about.p1">
+          I’m an engineer and scientist working in Zurich. I approach investing like research:
+          clear definitions, evidence, and respect for uncertainty.
+        </p>
+        <div class="hr"></div>
+        <p class="tiny" data-i18n="about.p2">
+          This is not asset management. Clients keep full control and custody at all times.
+        </p>
+      </aside>
+    </div>
+
+    <!-- EVIDENCE -->
+    <section id="evidence">
+      <div class="sectionhead">
+        <h2 data-i18n="evidence.title">Evidence-based investing</h2>
+        <span data-i18n="evidence.sub">What the research tends to agree on</span>
+      </div>
+
+      <div class="two">
+        <div class="card panel">
+          <h3 data-i18n="evidence.left.h">Core ideas</h3>
+          <ul>
+            <li data-i18n="evidence.left.li1">Markets are highly competitive; consistent outperformance is rare.</li>
+            <li data-i18n="evidence.left.li2">Costs compound; diversification and discipline matter.</li>
+            <li data-i18n="evidence.left.li3">Allocation drives outcomes more than “ideas”.</li>
+            <li data-i18n="evidence.left.li4">Rules are more reliable than forecasts.</li>
+          </ul>
+          <div class="hr"></div>
+          <p class="tiny" data-i18n="evidence.left.note">
+            We focus on process: what you can control. We explicitly avoid promises and prediction-driven narratives.
+          </p>
+        </div>
+
+        <div class="card panel">
+          <h3 data-i18n="evidence.right.h">Expected returns (long horizon)</h3>
+          <p class="tiny" data-i18n="evidence.right.p1">
+            No one can forecast returns precisely. A reasonable planning range for a globally diversified stock portfolio is often
+            “mid single-digit” real returns over decades, with large uncertainty and deep drawdowns along the way.
+          </p>
+          <div class="hr"></div>
+          <p class="tiny" data-i18n="evidence.right.p2">
+            The purpose of this service is not to guess the future—it’s to design a strategy you can follow through uncertainty.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid3" style="margin-top:14px">
+        <div class="card panel box">
+          <h3 data-i18n="evidence.box1.h">Interesting topic, serious approach</h3>
+          <p data-i18n="evidence.box1.p">You learn the models (market efficiency, factor research, risk) and how they translate into a maintainable portfolio.</p>
+        </div>
+        <div class="card panel box">
+          <h3 data-i18n="evidence.box2.h">AUM fees vs learning</h3>
+          <p data-i18n="evidence.box2.p">Instead of paying a percentage forever, you learn the framework once and keep control for life.</p>
+        </div>
+        <div class="card panel box">
+          <h3 data-i18n="evidence.box3.h">Designed for discipline</h3>
+          <p data-i18n="evidence.box3.p">We formalize contributions and rebalancing rules so behavior stays consistent in bull and bear markets.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COSTS + GRAPH -->
+    <section id="costs">
+      <div class="sectionhead">
+        <h2 data-i18n="costs.title">Costs matter</h2>
+        <span data-i18n="costs.sub">Fee drag is slow, then huge</span>
+      </div>
+
+      <div class="two">
+        <div class="card panel">
+          <h3 data-i18n="costs.left.h">What banks and robo-advisors often sell</h3>
+          <ul>
+            <li data-i18n="costs.left.li1">Convenience and delegation (sometimes useful).</li>
+            <li data-i18n="costs.left.li2">Ongoing percentage fees (often 0.5%–2%+ all-in).</li>
+            <li data-i18n="costs.left.li3">Extra layers: fund costs, platform fees, FX spreads.</li>
+          </ul>
+          <div class="hr"></div>
+          <p class="tiny" data-i18n="costs.left.note">
+            This doesn’t mean “evil.” It means incentives differ. This service is built around a flat fee and education.
+          </p>
+        </div>
+
+        <div class="card chartwrap">
+          <!-- A clean, static SVG chart: fee drag on 100k over 30y at 6% gross -->
+          <svg class="svgbox" viewBox="0 0 780 360" role="img" aria-label="Fee drag chart">
+            <defs>
+              <linearGradient id="gA" x1="0" x2="1">
+                <stop offset="0" stop-color="rgba(18,179,168,.75)"/>
+                <stop offset="1" stop-color="rgba(15,118,110,.60)"/>
+              </linearGradient>
+              <linearGradient id="gB" x1="0" x2="1">
+                <stop offset="0" stop-color="rgba(231,237,247,.55)"/>
+                <stop offset="1" stop-color="rgba(231,237,247,.20)"/>
+              </linearGradient>
+            </defs>
+
+            <!-- frame -->
+            <rect x="18" y="18" width="744" height="308" rx="16" fill="rgba(255,255,255,.02)" stroke="rgba(231,237,247,.10)"/>
+
+            <!-- grid lines -->
+            <g stroke="rgba(231,237,247,.08)" stroke-width="1">
+              <line x1="70" y1="70" x2="740" y2="70"/>
+              <line x1="70" y1="130" x2="740" y2="130"/>
+              <line x1="70" y1="190" x2="740" y2="190"/>
+              <line x1="70" y1="250" x2="740" y2="250"/>
+              <line x1="70" y1="310" x2="740" y2="310"/>
+            </g>
+
+            <!-- axes -->
+            <g stroke="rgba(231,237,247,.18)" stroke-width="1.2">
+              <line x1="70" y1="310" x2="740" y2="310"/>
+              <line x1="70" y1="50" x2="70" y2="310"/>
+            </g>
+
+            <!-- labels -->
+            <g fill="rgba(231,237,247,.65)" font-size="12" font-family="ui-sans-serif, system-ui">
+              <text x="36" y="313">0</text>
+              <text x="28" y="253">1x</text>
+              <text x="28" y="193">2x</text>
+              <text x="28" y="133">3x</text>
+              <text x="28" y="73">4x</text>
+
+              <text x="70" y="340">0y</text>
+              <text x="290" y="340">10y</text>
+              <text x="510" y="340">20y</text>
+              <text x="720" y="340">30y</text>
+            </g>
+
+            <!-- series: no-fee (6% gross) vs 1% fee (5% net) -->
+            <!-- precomputed normalized values vs final:
+                 6%: (1.06^t) / (1.06^30) scaled
+                 5%: (1.05^t) / (1.06^30) scaled
+                 We'll draw smooth-ish polylines with a few points.
+            -->
+            <polyline fill="none" stroke="url(#gA)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+              points="70,310 180,280 290,240 400,195 510,145 620,95 740,55"/>
+            <polyline fill="none" stroke="url(#gB)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+              points="70,310 180,286 290,255 400,220 510,182 620,142 740,104"/>
+
+            <!-- end dots -->
+            <circle cx="740" cy="55" r="5" fill="rgba(18,179,168,.9)"/>
+            <circle cx="740" cy="104" r="5" fill="rgba(231,237,247,.55)"/>
+
+            <!-- annotations -->
+            <g fill="rgba(231,237,247,.75)" font-size="12" font-family="ui-sans-serif, system-ui">
+              <text x="510" y="40">Illustration: 100k, 30y, 6% gross</text>
+              <text x="520" y="62">No advisor fee</text>
+              <text x="520" y="110">1%/yr fee</text>
+            </g>
+          </svg>
+
+          <div class="chartcap">
+            <strong data-i18n="costs.chart.cap1">Illustration</strong>
+            <span data-i18n="costs.chart.cap2">A 1% yearly fee can meaningfully reduce outcomes over decades.</span>
+          </div>
+          <div class="legend">
+            <div class="key"><span class="dot a"></span><span data-i18n="costs.chart.l1">No advisor fee</span></div>
+            <div class="key"><span class="dot b"></span><span data-i18n="costs.chart.l2">1% yearly fee</span></div>
+          </div>
+          <p class="tiny" style="margin-top:10px" data-i18n="costs.chart.note">
+            This is a simplified illustration (not a forecast). Real markets vary; the point is compounding and incentives.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="sectionhead">
+        <h2 data-i18n="services.title">Services</h2>
+        <span data-i18n="services.sub">Education + design + implementation</span>
+      </div>
+
+      <div class="grid3">
+        <div class="card panel box">
+          <h3 data-i18n="services.s1.h">Portfolio Setup Session (2–3h)</h3>
+          <p data-i18n="services.s1.p">Horizon & risk profile, allocation design, implementation steps, rebalancing rules, written summary.</p>
+        </div>
+        <div class="card panel box">
+          <h3 data-i18n="services.s2.h">Implementation in IBKR</h3>
+          <p data-i18n="services.s2.p">Account setup, order types, recurring contributions, reporting, and a maintenance workflow you can repeat.</p>
+        </div>
+        <div class="card panel box">
+          <h3 data-i18n="services.s3.h">Annual check-up (optional)</h3>
+          <p data-i18n="services.s3.p">Review life changes, validate rebalancing logic, simplify the plan if needed.</p>
+        </div>
+      </div>
+
+      <div class="two" style="margin-top:14px">
+        <div class="card panel">
+          <h3 data-i18n="services.scope.h">What you get</h3>
+          <ul>
+            <li data-i18n="services.scope.li1">A documented strategy you can follow through uncertainty.</li>
+            <li data-i18n="services.scope.li2">A clear process for contributions and rebalancing.</li>
+            <li data-i18n="services.scope.li3">Understanding: why the portfolio is built this way.</li>
+          </ul>
+        </div>
+        <div class="card panel">
+          <h3 data-i18n="services.notscope.h">What you do not get</h3>
+          <ul>
+            <li data-i18n="services.notscope.li1">No trading signals, no stock picking, no timing calls.</li>
+            <li data-i18n="services.notscope.li2">No promises of returns or outperformance.</li>
+            <li data-i18n="services.notscope.li3">No custody or discretionary management.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAXES -->
+    <section id="taxes">
+      <div class="sectionhead">
+        <h2 data-i18n="taxes.title">Taxes & reporting (Switzerland)</h2>
+        <span data-i18n="taxes.sub">Practical guidance, not legal advice</span>
+      </div>
+
+      <div class="two">
+        <div class="card panel">
+          <h3 data-i18n="taxes.left.h">What we cover</h3>
+          <ul>
+            <li data-i18n="taxes.left.li1">How Swiss taxation typically treats wealth and dividends (and why capital gains are often different).</li>
+            <li data-i18n="taxes.left.li2">How brokerage statements map to what you need for reporting.</li>
+            <li data-i18n="taxes.left.li3">US withholding basics (e.g., forms like W-8BEN) and what they usually change.</li>
+          </ul>
+          <div class="hr"></div>
+          <p class="tiny" data-i18n="taxes.left.note">
+            We keep it practical: what documents to keep, how to stay organized, and where to confirm official details.
+          </p>
+        </div>
+
+        <div class="card panel">
+          <h3 data-i18n="taxes.right.h">How it works in practice</h3>
+          <p class="tiny" data-i18n="taxes.right.p1">
+            Your broker produces annual statements with holdings, dividends, and transactions. The goal is to make your process simple:
+            maintain a clean record, understand what matters, and avoid unnecessary complexity.
+          </p>
+          <div class="hr"></div>
+          <p class="tiny" data-i18n="taxes.right.p2">
+            Tax law varies by canton and personal circumstances. For binding advice, you should use an accountant or tax professional.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING (minimal) -->
+    <section id="pricing">
+      <div class="sectionhead">
+        <h2 data-i18n="pricing.title">Pricing</h2>
+        <span data-i18n="pricing.sub">Flat, transparent</span>
+      </div>
+
+      <div class="two">
+        <div class="card panel">
+          <div class="tag" data-i18n="pricing.tag1">One-time</div>
+          <div style="font-size:34px;letter-spacing:-.4px;margin:10px 0 2px" data-i18n="pricing.p1">CHF 1,200</div>
+          <div class="tiny" data-i18n="pricing.p1s">Portfolio Setup Session (2–3 hours)</div>
+          <div class="hr"></div>
+          <div class="tiny" data-i18n="pricing.note1">The goal is independence: learn once, implement correctly, then run the process yourself.</div>
+        </div>
+
+        <div class="card panel">
+          <div class="tag" data-i18n="pricing.tag2">Optional</div>
+          <div style="font-size:34px;letter-spacing:-.4px;margin:10px 0 2px" data-i18n="pricing.p2">CHF 250</div>
+          <div class="tiny" data-i18n="pricing.p2s">Annual check-up (60–75 min)</div>
+          <div class="hr"></div>
+          <div class="tiny" data-i18n="pricing.note2">Ad-hoc consultations: CHF 150 / hour.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="sectionhead">
+        <h2 data-i18n="contact.title">Contact</h2>
+        <span data-i18n="contact.sub">Short message, then a quick fit check</span>
+      </div>
+
+      <div class="two">
+        <div class="card panel">
+          <h3 data-i18n="contact.h">Send a message</h3>
+          <p class="tiny" data-i18n="contact.p">
+            Include your horizon, your situation, and what you want to achieve.
+          </p>
+
+          <form action="https://formspree.io/f/mnjqadnq" method="POST">
+            <div class="row">
+              <div>
+                <label data-i18n="contact.nameL">Name</label>
+                <input name="name" data-i18n-ph="contact.nameP" placeholder="Your name" required />
+              </div>
+              <div>
+                <label data-i18n="contact.emailL">Email</label>
+                <input name="email" type="email" data-i18n-ph="contact.emailP" placeholder="you@email.com" required />
+              </div>
+            </div>
+
+            <label data-i18n="contact.msgL">Message</label>
+            <textarea name="message" data-i18n-ph="contact.msgP" placeholder="Example: 20-year horizon, monthly investing, want a simple ETF plan and IBKR workflow." required></textarea>
+
+            <div style="display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap">
+              <button class="btn" type="submit" data-i18n="contact.send">Send</button>
+              <span class="tiny" data-i18n="contact.note">If this is your first submission, Formspree may ask you to confirm your email.</span>
+            </div>
+          </form>
+        </div>
+
+        <div class="card panel">
+          <div class="notice">
+            <strong data-i18n="legal.h">Important notice</strong>
+            <p class="tiny" style="margin:8px 0 0" data-i18n="legal.p">
+              Educational and informational content only. No discretionary management, no solicitation, no promise of returns.
+              You retain full responsibility, control, and custody of your assets at all times.
+            </p>
+          </div>
+
+          <div class="hr"></div>
+
+          <p class="tiny" data-i18n="imprint">
+            Imprint: add your name / business entity and contact details as required by your setup.
+          </p>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="foot">
+          <div class="notice">
+            <strong data-i18n="foot.left.h">Rational Investing</strong><br/>
+            <span class="tiny" data-i18n="foot.left.p">Independent, evidence-based investing education and portfolio design.</span>
+          </div>
+          <div class="notice">
+            <strong data-i18n="foot.right.h">Scope</strong><br/>
+            <span class="tiny" data-i18n="foot.right.p">Flat fee • no custody • no commissions • no trading signals</span>
+          </div>
+        </div>
+        <p class="tiny" style="margin-top:12px">© <span id="year"></span></p>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const I18N = {
+      en: {
+        "brand.title":"Rational Investing",
+        "brand.sub":"Independent, evidence-based, flat fee",
+
+        "nav.evidence":"Evidence",
+        "nav.services":"Services",
+        "nav.costs":"Costs",
+        "nav.taxes":"Taxes",
+        "nav.contact":"Contact",
+
+        "hero.kicker":"A learning-first investment service",
+        "hero.h1":"Understand markets. Build a portfolio you can run for decades.",
+        "hero.lead":"I help long-term investors learn the evidence, design a robust allocation, and implement it correctly—without percentage-based advisory fees.",
+        "hero.p1":"Flat fee (no AUM)",
+        "hero.p2":"No custody",
+        "hero.p3":"No trading signals",
+        "hero.p4":"Implementation + rules",
+
+        "about.tag":"About",
+        "about.p1":"I’m an engineer and scientist working in Zurich. I approach investing like research: clear definitions, evidence, and respect for uncertainty.",
+        "about.p2":"This is not asset management. Clients keep full control and custody at all times.",
+
+        "evidence.title":"Evidence-based investing",
+        "evidence.sub":"What the research tends to agree on",
+        "evidence.left.h":"Core ideas",
+        "evidence.left.li1":"Markets are highly competitive; consistent outperformance is rare.",
+        "evidence.left.li2":"Costs compound; diversification and discipline matter.",
+        "evidence.left.li3":"Allocation drives outcomes more than “ideas”.",
+        "evidence.left.li4":"Rules are more reliable than forecasts.",
+        "evidence.left.note":"We focus on process: what you can control. We explicitly avoid promises and prediction-driven narratives.",
+        "evidence.right.h":"Expected returns (long horizon)",
+        "evidence.right.p1":"No one can forecast returns precisely. A reasonable planning range for a globally diversified stock portfolio is often “mid single-digit” real returns over decades, with large uncertainty and deep drawdowns along the way.",
+        "evidence.right.p2":"The purpose of this service is not to guess the future—it’s to design a strategy you can follow through uncertainty.",
+        "evidence.box1.h":"Interesting topic, serious approach",
+        "evidence.box1.p":"You learn the models (market efficiency, factor research, risk) and how they translate into a maintainable portfolio.",
+        "evidence.box2.h":"AUM fees vs learning",
+        "evidence.box2.p":"Instead of paying a percentage forever, you learn the framework once and keep control for life.",
+        "evidence.box3.h":"Designed for discipline",
+        "evidence.box3.p":"We formalize contributions and rebalancing rules so behavior stays consistent in bull and bear markets.",
+
+        "costs.title":"Costs matter",
+        "costs.sub":"Fee drag is slow, then huge",
+        "costs.left.h":"What banks and robo-advisors often sell",
+        "costs.left.li1":"Convenience and delegation (sometimes useful).",
+        "costs.left.li2":"Ongoing percentage fees (often 0.5%–2%+ all-in).",
+        "costs.left.li3":"Extra layers: fund costs, platform fees, FX spreads.",
+        "costs.left.note":"This doesn’t mean “evil.” It means incentives differ. This service is built around a flat fee and education.",
+        "costs.chart.cap1":"Illustration",
+        "costs.chart.cap2":"A 1% yearly fee can meaningfully reduce outcomes over decades.",
+        "costs.chart.l1":"No advisor fee",
+        "costs.chart.l2":"1% yearly fee",
+        "costs.chart.note":"This is a simplified illustration (not a forecast). Real markets vary; the point is compounding and incentives.",
+
+        "services.title":"Services",
+        "services.sub":"Education + design + implementation",
+        "services.s1.h":"Portfolio Setup Session (2–3h)",
+        "services.s1.p":"Horizon & risk profile, allocation design, implementation steps, rebalancing rules, written summary.",
+        "services.s2.h":"Implementation in IBKR",
+        "services.s2.p":"Account setup, order types, recurring contributions, reporting, and a maintenance workflow you can repeat.",
+        "services.s3.h":"Annual check-up (optional)",
+        "services.s3.p":"Review life changes, validate rebalancing logic, simplify the plan if needed.",
+        "services.scope.h":"What you get",
+        "services.scope.li1":"A documented strategy you can follow through uncertainty.",
+        "services.scope.li2":"A clear process for contributions and rebalancing.",
+        "services.scope.li3":"Understanding: why the portfolio is built this way.",
+        "services.notscope.h":"What you do not get",
+        "services.notscope.li1":"No trading signals, no stock picking, no timing calls.",
+        "services.notscope.li2":"No promises of returns or outperformance.",
+        "services.notscope.li3":"No custody or discretionary management.",
+
+        "taxes.title":"Taxes & reporting (Switzerland)",
+        "taxes.sub":"Practical guidance, not legal advice",
+        "taxes.left.h":"What we cover",
+        "taxes.left.li1":"How Swiss taxation typically treats wealth and dividends (and why capital gains are often different).",
+        "taxes.left.li2":"How brokerage statements map to what you need for reporting.",
+        "taxes.left.li3":"US withholding basics (e.g., forms like W-8BEN) and what they usually change.",
+        "taxes.left.note":"We keep it practical: what documents to keep, how to stay organized, and where to confirm official details.",
+        "taxes.right.h":"How it works in practice",
+        "taxes.right.p1":"Your broker produces annual statements with holdings, dividends, and transactions. The goal is to make your process simple: maintain a clean record, understand what matters, and avoid unnecessary complexity.",
+        "taxes.right.p2":"Tax law varies by canton and personal circumstances. For binding advice, you should use an accountant or tax professional.",
+
+        "pricing.title":"Pricing",
+        "pricing.sub":"Flat, transparent",
+        "pricing.tag1":"One-time",
+        "pricing.p1":"CHF 1,200",
+        "pricing.p1s":"Portfolio Setup Session (2–3 hours)",
+        "pricing.note1":"The goal is independence: learn once, implement correctly, then run the process yourself.",
+        "pricing.tag2":"Optional",
+        "pricing.p2":"CHF 250",
+        "pricing.p2s":"Annual check-up (60–75 min)",
+        "pricing.note2":"Ad-hoc consultations: CHF 150 / hour.",
+
+        "contact.title":"Contact",
+        "contact.sub":"Short message, then a quick fit check",
+        "contact.h":"Send a message",
+        "contact.p":"Include your horizon, your situation, and what you want to achieve.",
+        "contact.nameL":"Name",
+        "contact.emailL":"Email",
+        "contact.msgL":"Message",
+        "contact.send":"Send",
+        "contact.note":"If this is your first submission, Formspree may ask you to confirm your email.",
+        "contact.nameP":"Your name",
+        "contact.emailP":"you@email.com",
+        "contact.msgP":"Example: 20-year horizon, monthly investing, want a simple ETF plan and IBKR workflow.",
+
+        "legal.h":"Important notice",
+        "legal.p":"Educational and informational content only. No discretionary management, no solicitation, no promise of returns. You retain full responsibility, control, and custody of your assets at all times.",
+        "imprint":"Imprint: add your name / business entity and contact details as required by your setup.",
+        "foot.left.h":"Rational Investing",
+        "foot.left.p":"Independent, evidence-based investing education and portfolio design.",
+        "foot.right.h":"Scope",
+        "foot.right.p":"Flat fee • no custody • no commissions • no trading signals"
+      },
+
+      // Minimal, elegant translations (concise but complete)
+      de: {
+        "brand.title":"Rational Investing","brand.sub":"Unabhängig, evidenzbasiert, Pauschalhonorar",
+        "nav.evidence":"Evidenz","nav.services":"Leistungen","nav.costs":"Kosten","nav.taxes":"Steuern","nav.contact":"Kontakt",
+        "hero.kicker":"Investieren als Lernprozess","hero.h1":"Märkte verstehen. Ein Portfolio für Jahrzehnte aufbauen.","hero.lead":"Ich unterstütze langfristige Anleger dabei, die Evidenz zu verstehen, eine robuste Allokation zu entwerfen und korrekt umzusetzen—ohne prozentuale Gebühren.",
+        "hero.p1":"Pauschal (kein AUM)","hero.p2":"Keine Verwahrung","hero.p3":"Keine Signale","hero.p4":"Umsetzung + Regeln",
+        "about.tag":"Über mich","about.p1":"Ich bin Ingenieur und Wissenschaftler in Zürich. Investieren behandle ich wie Forschung: klare Begriffe, Evidenz, Respekt vor Unsicherheit.","about.p2":"Keine Vermögensverwaltung. Sie behalten Kontrolle und Verwahrung.",
+        "evidence.title":"Evidenzbasiertes Investieren","evidence.sub":"Worauf sich Forschung häufig einigt",
+        "evidence.left.h":"Kernideen","evidence.left.li1":"Märkte sind kompetitiv; dauerhafte Outperformance ist selten.","evidence.left.li2":"Kosten kumulieren; Diversifikation und Disziplin zählen.","evidence.left.li3":"Allokation zählt mehr als „Ideen“.","evidence.left.li4":"Regeln sind verlässlicher als Prognosen.",
+        "evidence.left.note":"Fokus auf Prozess: das, was Sie kontrollieren können. Keine Versprechen, keine Stories.",
+        "evidence.right.h":"Erwartete Renditen (langfristig)","evidence.right.p1":"Niemand kann Renditen präzise prognostizieren. Für globale Aktien wird oft eine „mittlere einstellige“ reale Planungsgröße über Jahrzehnte diskutiert—mit hoher Unsicherheit und starken Drawdowns.",
+        "evidence.right.p2":"Ziel ist nicht Vorhersage, sondern eine Strategie, die Sie durch Unsicherheit tragen können.",
+        "evidence.box1.h":"Spannend, aber seriös","evidence.box1.p":"Modelle (Effizienz, Faktoren, Risiko) und deren praktische Umsetzung.",
+        "evidence.box2.h":"Pauschal statt Prozent","evidence.box2.p":"Einmal lernen, langfristig selbst führen—ohne permanente Prozentgebühr.",
+        "evidence.box3.h":"Für Disziplin gebaut","evidence.box3.p":"Beiträge und Rebalancing werden als klare Regeln formuliert.",
+        "costs.title":"Kosten zählen","costs.sub":"Gebührendrag wirkt langsam—dann stark",
+        "costs.left.h":"Was Banken & Robo-Advisors oft bieten","costs.left.li1":"Komfort und Delegation (teils sinnvoll).","costs.left.li2":"Laufende Prozentgebühren (häufig 0,5%–2%+).","costs.left.li3":"Zusatzschichten: Fondskosten, Plattform, FX-Spreads.",
+        "costs.left.note":"Nicht „böse“—aber andere Anreize. Hier: Pauschalhonorar + Bildung.",
+        "costs.chart.cap1":"Illustration","costs.chart.cap2":"1% p.a. kann Ergebnisse über Jahrzehnte deutlich senken.","costs.chart.l1":"Ohne Beratergebühr","costs.chart.l2":"1% p.a. Gebühr",
+        "costs.chart.note":"Vereinfachte Illustration (keine Prognose). Der Punkt: Zinseszinseffekt und Anreize.",
+        "services.title":"Leistungen","services.sub":"Bildung + Design + Umsetzung",
+        "services.s1.h":"Portfolio-Setup (2–3h)","services.s1.p":"Horizont/Risiko, Allokation, Umsetzung, Rebalancing-Regeln, schriftliche Zusammenfassung.",
+        "services.s2.h":"Umsetzung in IBKR","services.s2.p":"Konto, Ordertypen, Einzahlungen, Reporting, wiederholbarer Workflow.",
+        "services.s3.h":"Jährlicher Check (optional)","services.s3.p":"Lebensänderungen prüfen, Rebalancing validieren, Vereinfachen.",
+        "services.scope.h":"Sie erhalten","services.scope.li1":"Dokumentierte Strategie.","services.scope.li2":"Klare Regeln für Beiträge/Rebalancing.","services.scope.li3":"Verständnis der Struktur.",
+        "services.notscope.h":"Sie erhalten nicht","services.notscope.li1":"Keine Signale/Timing/Tipps.","services.notscope.li2":"Keine Renditeversprechen.","services.notscope.li3":"Keine Verwahrung/Management.",
+        "taxes.title":"Steuern & Reporting (Schweiz)","taxes.sub":"Praktisch, keine Rechtsberatung",
+        "taxes.left.h":"Was wir behandeln","taxes.left.li1":"Typische Behandlung von Vermögen/Dividenden (und warum Kapitalgewinne oft anders sind).","taxes.left.li2":"Welche Broker-Dokumente relevant sind.","taxes.left.li3":"US-Quellensteuer-Basics (z.B. W-8BEN).",
+        "taxes.left.note":"Praktische Ordnung: Dokumente, Prozess, wo Offizielles zu prüfen ist.",
+        "taxes.right.h":"Praktischer Ablauf","taxes.right.p1":"Broker-Statements enthalten Positionen, Dividenden und Transaktionen. Ziel: ein einfacher, sauberer Prozess.",
+        "taxes.right.p2":"Details hängen von Kanton und Situation ab. Für verbindliche Aussagen: Steuerprofi.",
+        "pricing.title":"Preise","pricing.sub":"Pauschal, transparent",
+        "pricing.tag1":"Einmalig","pricing.p1":"CHF 1.200","pricing.p1s":"Portfolio-Setup (2–3 Stunden)","pricing.note1":"Ziel: Unabhängigkeit.",
+        "pricing.tag2":"Optional","pricing.p2":"CHF 250","pricing.p2s":"Jährlicher Check (60–75 Min.)","pricing.note2":"Ad-hoc: CHF 150 / Stunde.",
+        "contact.title":"Kontakt","contact.sub":"Kurze Nachricht, dann Fit-Check",
+        "contact.h":"Nachricht senden","contact.p":"Horizont, Situation, Ziel kurz beschreiben.",
+        "contact.nameL":"Name","contact.emailL":"E-Mail","contact.msgL":"Nachricht","contact.send":"Senden","contact.note":"Beim ersten Mal kann Formspree eine Bestätigung verlangen.",
+        "contact.nameP":"Ihr Name","contact.emailP":"you@email.com","contact.msgP":"Beispiel: 20 Jahre Horizont, monatlich investieren, ETF-Plan + IBKR-Workflow.",
+        "legal.h":"Hinweis","legal.p":"Nur Bildung/Information. Keine Vermögensverwaltung, keine Aufforderung, keine Renditezusage. Sie behalten Verantwortung, Kontrolle und Verwahrung.",
+        "imprint":"Impressum: Name/Firma und Kontaktdaten ergänzen.",
+        "foot.left.h":"Rational Investing","foot.left.p":"Unabhängige Anlagebildung und Portfoliodesign.","foot.right.h":"Umfang","foot.right.p":"Pauschal • keine Verwahrung • keine Provision • keine Signale"
+      },
+
+      fr: {
+        "brand.title":"Rational Investing","brand.sub":"Indépendant, fondé sur les preuves, forfait",
+        "nav.evidence":"Preuves","nav.services":"Services","nav.costs":"Coûts","nav.taxes":"Fiscalité","nav.contact":"Contact",
+        "hero.kicker":"Investir comme apprentissage","hero.h1":"Comprendre les marchés. Construire un portefeuille pour des décennies.","hero.lead":"J’aide les investisseurs de long terme à comprendre les preuves, concevoir une allocation robuste et l’implémenter—sans frais proportionnels aux actifs.",
+        "hero.p1":"Forfait (pas d’AUM)","hero.p2":"Pas de garde","hero.p3":"Pas de signaux","hero.p4":"Implémentation + règles",
+        "about.tag":"À propos","about.p1":"Ingénieur et scientifique à Zurich. Même approche qu’en recherche : définitions claires, preuves, respect de l’incertitude.","about.p2":"Pas de gestion sous mandat. Vous gardez contrôle et garde.",
+        "evidence.title":"Investissement fondé sur les preuves","evidence.sub":"Ce que la recherche tend à soutenir",
+        "evidence.left.h":"Idées clés","evidence.left.li1":"Les marchés sont compétitifs ; la surperformance durable est rare.","evidence.left.li2":"Les coûts se cumulent ; diversification et discipline comptent.","evidence.left.li3":"L’allocation pèse plus que les “idées”.","evidence.left.li4":"Des règles > des prévisions.",
+        "evidence.left.note":"Focus sur le processus : ce que vous contrôlez. Pas de promesses, pas de récits.",
+        "evidence.right.h":"Rendements attendus (long terme)","evidence.right.p1":"Impossible de prévoir précisément. Pour des actions mondiales, on évoque souvent un ordre de grandeur réel “milieu de chiffre simple” sur des décennies—avec forte incertitude et drawdowns.",
+        "evidence.right.p2":"Objectif : une stratégie que vous pouvez tenir dans l’incertitude.",
+        "evidence.box1.h":"Sujet fascinant, méthode sérieuse","evidence.box1.p":"Modèles (efficience, facteurs, risque) et traduction pratique.",
+        "evidence.box2.h":"Forfait vs pourcentage","evidence.box2.p":"Apprendre une fois, garder le contrôle—sans payer un % à vie.",
+        "evidence.box3.h":"Conçu pour la discipline","evidence.box3.p":"Règles explicites pour contributions et rééquilibrage.",
+        "costs.title":"Les coûts comptent","costs.sub":"L’érosion par les frais est lente—puis énorme",
+        "costs.left.h":"Ce que banques et robo-advisors vendent souvent","costs.left.li1":"Confort et délégation (parfois utile).","costs.left.li2":"Frais en % (souvent 0,5%–2%+).","costs.left.li3":"Couches supplémentaires : fonds, plateforme, FX.",
+        "costs.left.note":"Pas “mal” — incitations différentes. Ici : forfait + éducation.",
+        "costs.chart.cap1":"Illustration","costs.chart.cap2":"1%/an peut réduire fortement le résultat sur des décennies.","costs.chart.l1":"Sans frais conseiller","costs.chart.l2":"Frais 1%/an",
+        "costs.chart.note":"Illustration simplifiée (pas une prévision). Point : capitalisation et incitations.",
+        "services.title":"Services","services.sub":"Éducation + conception + mise en œuvre",
+        "services.s1.h":"Session de setup (2–3h)","services.s1.p":"Horizon/risque, allocation, mise en œuvre, règles, résumé écrit.",
+        "services.s2.h":"Mise en œuvre sur IBKR","services.s2.p":"Compte, ordres, contributions, reporting, workflow maintenable.",
+        "services.s3.h":"Bilan annuel (optionnel)","services.s3.p":"Changements de vie, validation du rééquilibrage, simplification.",
+        "services.scope.h":"Vous obtenez","services.scope.li1":"Une stratégie documentée.","services.scope.li2":"Des règles claires.","services.scope.li3":"Compréhension de la structure.",
+        "services.notscope.h":"Vous n’obtenez pas","services.notscope.li1":"Pas de signaux/timing/tips.","services.notscope.li2":"Pas de promesses.","services.notscope.li3":"Pas de garde/gestion.",
+        "taxes.title":"Fiscalité & reporting (Suisse)","taxes.sub":"Pratique, pas un avis juridique",
+        "taxes.left.h":"Ce que nous couvrons","taxes.left.li1":"Traitement typique de la fortune/dividendes (et pourquoi les gains en capital sont souvent différents).","taxes.left.li2":"Quels documents du broker sont utiles.","taxes.left.li3":"Notions de retenue US (ex. W-8BEN).",
+        "taxes.left.note":"Organisation : documents, processus, où vérifier l’officiel.",
+        "taxes.right.h":"En pratique","taxes.right.p1":"Les relevés annuels incluent positions, dividendes, transactions. Objectif : processus simple et propre.",
+        "taxes.right.p2":"Les détails varient selon canton et situation. Pour du contraignant : fiscaliste.",
+        "pricing.title":"Tarifs","pricing.sub":"Forfait, transparent",
+        "pricing.tag1":"Unique","pricing.p1":"CHF 1 200","pricing.p1s":"Session (2–3 heures)","pricing.note1":"Objectif : autonomie.",
+        "pricing.tag2":"Optionnel","pricing.p2":"CHF 250","pricing.p2s":"Bilan annuel (60–75 min)","pricing.note2":"À la demande : CHF 150 / heure.",
+        "contact.title":"Contact","contact.sub":"Message court, puis fit check",
+        "contact.h":"Envoyer un message","contact.p":"Horizon, situation, objectif.",
+        "contact.nameL":"Nom","contact.emailL":"Email","contact.msgL":"Message","contact.send":"Envoyer","contact.note":"Au premier envoi, Formspree peut demander confirmation.",
+        "contact.nameP":"Votre nom","contact.emailP":"you@email.com","contact.msgP":"Exemple : horizon 20 ans, investissement mensuel, plan ETF + workflow IBKR.",
+        "legal.h":"Avis","legal.p":"Contenu éducatif uniquement. Pas de gestion, pas de sollicitation, pas de promesse. Vous gardez responsabilité, contrôle et garde.",
+        "imprint":"Mentions légales : ajoutez nom/entité et coordonnées.",
+        "foot.left.h":"Rational Investing","foot.left.p":"Éducation et conception de portefeuille, indépendantes.","foot.right.h":"Périmètre","foot.right.p":"Forfait • pas de garde • pas de commissions • pas de signaux"
+      },
+
+      it: {
+        "brand.title":"Rational Investing","brand.sub":"Indipendente, basato su evidenza, tariffa fissa",
+        "nav.evidence":"Evidenza","nav.services":"Servizi","nav.costs":"Costi","nav.taxes":"Tasse","nav.contact":"Contatto",
+        "hero.kicker":"Investire come apprendimento","hero.h1":"Capire i mercati. Costruire un portafoglio per decenni.","hero.lead":"Aiuto investitori di lungo periodo a capire l’evidenza, progettare un’allocazione robusta e implementarla—senza commissioni percentuali.",
+        "hero.p1":"Tariffa fissa (no AUM)","hero.p2":"Nessuna custodia","hero.p3":"Nessun segnale","hero.p4":"Implementazione + regole",
+        "about.tag":"Chi sono","about.p1":"Ingegnere e scienziato a Zurigo. Stesso approccio della ricerca: definizioni chiare, evidenza, rispetto dell’incertezza.","about.p2":"Non è gestione patrimoniale. Controllo e custodia restano tuoi.",
+        "evidence.title":"Investimento basato su evidenza","evidence.sub":"Ciò su cui la ricerca converge spesso",
+        "evidence.left.h":"Idee chiave","evidence.left.li1":"Mercati competitivi; sovraperformance costante è rara.","evidence.left.li2":"I costi si sommano; diversificazione e disciplina contano.","evidence.left.li3":"L’allocazione pesa più delle “idee”.","evidence.left.li4":"Regole > previsioni.",
+        "evidence.left.note":"Focus sul processo: ciò che controlli. Niente promesse, niente narrazioni.",
+        "evidence.right.h":"Rendimenti attesi (lungo termine)","evidence.right.p1":"Impossibile prevedere con precisione. Per azioni globali si cita spesso un ordine di grandezza reale “medio a una cifra” su decenni—con elevata incertezza e drawdown.",
+        "evidence.right.p2":"Obiettivo: una strategia che regge l’incertezza.",
+        "evidence.box1.h":"Tema affascinante, metodo serio","evidence.box1.p":"Modelli (efficienza, fattori, rischio) e traduzione pratica.",
+        "evidence.box2.h":"Forfait invece di percentuale","evidence.box2.p":"Impari una volta, mantieni il controllo—senza pagare un % per sempre.",
+        "evidence.box3.h":"Progettato per la disciplina","evidence.box3.p":"Regole esplicite per contributi e ribilanciamento.",
+        "costs.title":"I costi contano","costs.sub":"L’effetto delle commissioni è lento—poi enorme",
+        "costs.left.h":"Cosa vendono spesso banche e robo-advisor","costs.left.li1":"Comodità e delega (a volte utile).","costs.left.li2":"Commissioni in % (spesso 0,5%–2%+).","costs.left.li3":"Strati extra: fondi, piattaforma, FX.",
+        "costs.left.note":"Non è “male” — incentivi diversi. Qui: forfait + educazione.",
+        "costs.chart.cap1":"Illustrazione","costs.chart.cap2":"1%/anno può ridurre molto nel lungo periodo.","costs.chart.l1":"Senza fee advisor","costs.chart.l2":"Fee 1%/anno",
+        "costs.chart.note":"Illustrazione semplificata (non previsione). Punto: capitalizzazione e incentivi.",
+        "services.title":"Servizi","services.sub":"Educazione + design + implementazione",
+        "services.s1.h":"Sessione setup (2–3h)","services.s1.p":"Orizzonte/rischio, allocazione, implementazione, regole, riepilogo scritto.",
+        "services.s2.h":"Implementazione IBKR","services.s2.p":"Account, ordini, contributi, report, workflow mantenibile.",
+        "services.s3.h":"Check annuale (opzionale)","services.s3.p":"Cambi di vita, validazione ribilanciamento, semplificazione.",
+        "services.scope.h":"Cosa ottieni","services.scope.li1":"Strategia documentata.","services.scope.li2":"Regole chiare.","services.scope.li3":"Comprensione della struttura.",
+        "services.notscope.h":"Cosa non ottieni","services.notscope.li1":"Niente segnali/timing/tips.","services.notscope.li2":"Niente promesse.","services.notscope.li3":"Niente custodia/gestione.",
+        "taxes.title":"Tasse & reporting (Svizzera)","taxes.sub":"Pratico, non consulenza legale",
+        "taxes.left.h":"Cosa copriamo","taxes.left.li1":"Trattamento tipico di patrimonio/dividendi (e perché i capital gain spesso differiscono).","taxes.left.li2":"Documenti del broker utili.","taxes.left.li3":"Nozioni su ritenute USA (es. W-8BEN).",
+        "taxes.left.note":"Organizzazione: documenti, processo, dove verificare l’ufficiale.",
+        "taxes.right.h":"In pratica","taxes.right.p1":"I report annui includono posizioni, dividendi, transazioni. Obiettivo: processo semplice e pulito.",
+        "taxes.right.p2":"Dettagli dipendono da cantone e situazione. Per pareri vincolanti: professionista.",
+        "pricing.title":"Prezzi","pricing.sub":"Forfait, trasparente",
+        "pricing.tag1":"Una tantum","pricing.p1":"CHF 1.200","pricing.p1s":"Sessione (2–3 ore)","pricing.note1":"Obiettivo: autonomia.",
+        "pricing.tag2":"Opzionale","pricing.p2":"CHF 250","pricing.p2s":"Check annuale (60–75 min)","pricing.note2":"Ad-hoc: CHF 150 / ora.",
+        "contact.title":"Contatto","contact.sub":"Messaggio breve, poi fit check",
+        "contact.h":"Invia un messaggio","contact.p":"Orizzonte, situazione, obiettivo.",
+        "contact.nameL":"Nome","contact.emailL":"Email","contact.msgL":"Messaggio","contact.send":"Invia","contact.note":"Al primo invio, Formspree può chiedere conferma.",
+        "contact.nameP":"Il tuo nome","contact.emailP":"you@email.com","contact.msgP":"Esempio: orizzonte 20 anni, investimento mensile, piano ETF + workflow IBKR.",
+        "legal.h":"Avviso","legal.p":"Solo contenuto educativo. Nessuna gestione, nessuna sollecitazione, nessuna promessa. Responsabilità/controllo/custodia restano tuoi.",
+        "imprint":"Imprint: aggiungi nome/entità e contatti.",
+        "foot.left.h":"Rational Investing","foot.left.p":"Educazione e design di portafoglio, indipendenti.","foot.right.h":"Ambito","foot.right.p":"Forfait • niente custodia • niente commissioni • niente segnali"
+      },
+
+      es: {
+        "brand.title":"Rational Investing","brand.sub":"Independiente, basado en evidencia, tarifa fija",
+        "nav.evidence":"Evidencia","nav.services":"Servicios","nav.costs":"Costes","nav.taxes":"Impuestos","nav.contact":"Contacto",
+        "hero.kicker":"Invertir como aprendizaje","hero.h1":"Entender los mercados. Construir una cartera para décadas.","hero.lead":"Ayudo a inversores de largo plazo a comprender la evidencia, diseñar una asignación robusta e implementarla—sin comisiones porcentuales.",
+        "hero.p1":"Tarifa fija (sin AUM)","hero.p2":"Sin custodia","hero.p3":"Sin señales","hero.p4":"Implementación + reglas",
+        "about.tag":"Sobre mí","about.p1":"Soy ingeniero y científico en Zúrich. En inversión aplico el enfoque de la investigación: definiciones claras, evidencia y respeto por la incertidumbre.","about.p2":"No es gestión discrecional. Control y custodia siempre tuyos.",
+        "evidence.title":"Inversión basada en evidencia","evidence.sub":"En qué suele coincidir la investigación",
+        "evidence.left.h":"Ideas clave","evidence.left.li1":"Mercados competitivos; batirlos consistentemente es raro.","evidence.left.li2":"Los costes se acumulan; diversificación y disciplina importan.","evidence.left.li3":"La asignación pesa más que las “ideas”.","evidence.left.li4":"Reglas > predicciones.",
+        "evidence.left.note":"Foco en proceso: lo controlable. Sin promesas ni narrativas de predicción.",
+        "evidence.right.h":"Rentabilidad esperada (largo plazo)","evidence.right.p1":"Nadie puede predecir con precisión. Para acciones globales, suele mencionarse una planificación real “media de un dígito” a décadas—con gran incertidumbre y drawdowns.",
+        "evidence.right.p2":"Objetivo: una estrategia que puedas sostener en la incertidumbre.",
+        "evidence.box1.h":"Tema interesante, método serio","evidence.box1.p":"Modelos (eficiencia, factores, riesgo) y traducción práctica.",
+        "evidence.box2.h":"Tarifa fija vs porcentaje","evidence.box2.p":"Aprender una vez, mantener el control—sin pagar un % para siempre.",
+        "evidence.box3.h":"Diseñado para disciplina","evidence.box3.p":"Reglas explícitas para aportaciones y rebalanceo.",
+        "costs.title":"Los costes importan","costs.sub":"El drag de comisiones es lento—y luego enorme",
+        "costs.left.h":"Lo que ofrecen bancos y roboadvisors","costs.left.li1":"Comodidad y delegación (a veces útil).","costs.left.li2":"Comisiones en % (a menudo 0,5%–2%+).","costs.left.li3":"Capas extra: fondos, plataforma, FX.",
+        "costs.left.note":"No es “malo” — incentivos distintos. Aquí: tarifa fija + educación.",
+        "costs.chart.cap1":"Ilustración","costs.chart.cap2":"Un 1% anual puede reducir mucho en décadas.","costs.chart.l1":"Sin fee asesor","costs.chart.l2":"Fee 1% anual",
+        "costs.chart.note":"Ilustración simplificada (no previsión). Punto: interés compuesto e incentivos.",
+        "services.title":"Servicios","services.sub":"Educación + diseño + implementación",
+        "services.s1.h":"Sesión de setup (2–3h)","services.s1.p":"Horizonte/riesgo, asignación, implementación, reglas, resumen escrito.",
+        "services.s2.h":"Implementación en IBKR","services.s2.p":"Cuenta, tipos de orden, aportaciones, informes, flujo mantenible.",
+        "services.s3.h":"Revisión anual (opcional)","services.s3.p":"Cambios de vida, validación de rebalanceo, simplificación.",
+        "services.scope.h":"Qué obtienes","services.scope.li1":"Estrategia documentada.","services.scope.li2":"Reglas claras.","services.scope.li3":"Comprensión de la estructura.",
+        "services.notscope.h":"Qué no obtienes","services.notscope.li1":"Sin señales/timing/tips.","services.notscope.li2":"Sin promesas.","services.notscope.li3":"Sin custodia/gestión.",
+        "taxes.title":"Impuestos y reporting (Suiza)","taxes.sub":"Guía práctica, no asesoría legal",
+        "taxes.left.h":"Qué cubrimos","taxes.left.li1":"Tratamiento típico de patrimonio/dividendos (y por qué los capital gains suelen diferir).","taxes.left.li2":"Qué documentos del broker necesitas.","taxes.left.li3":"Básicos de retención USA (p.ej., W-8BEN).",
+        "taxes.left.note":"Organización: documentos, proceso, dónde confirmar lo oficial.",
+        "taxes.right.h":"Cómo se hace en la práctica","taxes.right.p1":"Los informes anuales incluyen posiciones, dividendos y transacciones. Objetivo: proceso simple y limpio.",
+        "taxes.right.p2":"Depende del cantón y circunstancias. Para algo vinculante: profesional fiscal.",
+        "pricing.title":"Precios","pricing.sub":"Tarifa fija, transparente",
+        "pricing.tag1":"Una vez","pricing.p1":"CHF 1.200","pricing.p1s":"Sesión (2–3 horas)","pricing.note1":"Objetivo: autonomía.",
+        "pricing.tag2":"Opcional","pricing.p2":"CHF 250","pricing.p2s":"Revisión anual (60–75 min)","pricing.note2":"Consultas: CHF 150 / hora.",
+        "contact.title":"Contacto","contact.sub":"Mensaje breve, luego fit check",
+        "contact.h":"Enviar mensaje","contact.p":"Horizonte, situación, objetivo.",
+        "contact.nameL":"Nombre","contact.emailL":"Email","contact.msgL":"Mensaje","contact.send":"Enviar","contact.note":"En el primer envío, Formspree puede pedir confirmación.",
+        "contact.nameP":"Tu nombre","contact.emailP":"you@email.com","contact.msgP":"Ejemplo: 20 años horizonte, aportación mensual, plan ETF + flujo IBKR.",
+        "legal.h":"Aviso","legal.p":"Contenido educativo. Sin gestión discrecional, sin solicitud, sin promesa. Responsabilidad/control/custodia siempre tuyos.",
+        "imprint":"Imprint: añade nombre/entidad y datos de contacto.",
+        "foot.left.h":"Rational Investing","foot.left.p":"Educación e ingeniería de carteras, independiente.","foot.right.h":"Alcance","foot.right.p":"Tarifa fija • sin custodia • sin comisiones • sin señales"
+      }
+    };
+
+    function applyLang(lang){
+      const dict = I18N[lang] || I18N.en;
+
+      document.querySelectorAll("[data-i18n]").forEach(el=>{
+        const k = el.getAttribute("data-i18n");
+        if(dict[k] !== undefined) el.textContent = dict[k];
+      });
+
+      document.querySelectorAll("[data-i18n-ph]").forEach(el=>{
+        const k = el.getAttribute("data-i18n-ph");
+        if(dict[k] !== undefined) el.setAttribute("placeholder", dict[k]);
+      });
+
+      document.documentElement.lang = lang;
+      localStorage.setItem("ri_lang", lang);
+
+      document.title =
+        (lang==="de") ? "Rational Investing" :
+        (lang==="fr") ? "Rational Investing" :
+        (lang==="it") ? "Rational Investing" :
+        (lang==="es") ? "Rational Investing" : "Rational Investing";
+    }
+
+    const saved = localStorage.getItem("ri_lang");
+    const browserLang = (navigator.language || "en").slice(0,2);
+    const initial = saved || (I18N[browserLang] ? browserLang : "en");
+
+    const select = document.getElementById("langSelect");
+    select.value = initial;
+    applyLang(initial);
+    select.addEventListener("change", e => applyLang(e.target.value));
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
