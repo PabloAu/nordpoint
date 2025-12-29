@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Nord</title>
+<meta content="Evidenzbasierte Investment‑Bildung. Lerne, dein Vermögen zu managen." name="description"/>
+<meta content="#0f0f10" name="theme-color"/>
+<style>
+    :root{
+      --ink:#0f0f10;
+      --muted: rgba(15,15,16,.72);
+      --muted2: rgba(15,15,16,.56);
+      --line: rgba(15,15,16,.10);
+
+      --bgA:#f5f2ed;
+      --bgB:#fbfaf7;
+      --bgC:#f2efe9;
+
+      --max: 1180px;
+      --shadow: 0 18px 70px rgba(0,0,0,.10);
+      --shadow2: 0 10px 28px rgba(0,0,0,.07);
+
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
+
+      --headerH: 62px;
+
+      /* accents */
+      --gold:#8b7a4a;
+      --good:#2f7d57;   /* elegant green */
+      --bad:#9b4a6a;    /* elegant magenta */
+      --pos:#2f7d57;    /* positive delta */
+      --neg:#9b4a6a;    /* negative delta */
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--ink);
+      background: var(--bgA);
+      overflow-x:hidden;
+      padding-top: var(--headerH);
+    }
+
+    a{color:inherit;text-decoration:none}
+    a:hover{opacity:.88}
+    [id]{ scroll-margin-top: calc(var(--headerH) + 18px); }
+
+    .noise{
+      pointer-events:none;
+      position:fixed; inset:0;
+      opacity:.045;
+      mix-blend-mode:multiply;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.75'/%3E%3C/svg%3E");
+      background-size:260px 260px;
+      z-index:0;
+    }
+
+    /* HEADER */
+    header{
+      position: fixed;
+      top:0; left:0;
+      width:100%;
+      height: var(--headerH);
+      z-index:100;
+      transition: background .22s ease, border-color .22s ease, box-shadow .22s ease;
+      display:flex;
+      align-items:center;
+
+      background: rgba(245,242,237,.84);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(15,15,16,.08);
+      box-shadow: none;
+    }
+    body.hero-mode header{
+      background: rgba(15,15,16,.22);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+
+    .nav{
+      max-width:var(--max);
+      margin:0 auto;
+      width:100%;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width: 240px;
+    }
+    .logo{ height:22px; width:auto; display:block; }
+    .brandtext{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      line-height:1.1;
+    }
+    .brandtext .tag{
+      font-family: var(--serif);
+      font-size: 18px;
+      color:#4a4a4a;
+      transition: color .22s ease;
+      white-space:nowrap;
+    }
+
+    nav{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    nav a.link{
+      font-size:16px;
+      color:#4a4a4a;
+      padding:8px 10px;
+      border-radius:999px;
+      transition: color .22s ease, background .22s ease;
+    }
+    nav a.link:hover{
+      color:#1f1f1f;
+      background:rgba(255,255,255,.55);
+    }
+
+    body.hero-mode.scrolled nav a.link,
+    body.hero-mode.scrolled .brandtext .tag{
+      color: rgba(255,255,255,.85);
+    }
+    body.hero-mode.scrolled nav a.link:hover{
+      color:#ffffff;
+      background: rgba(255,255,255,.10);
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      padding:10px 14px;
+      font-size:13px;
+      border:1px solid rgba(15,15,16,.14);
+      background:rgba(255,255,255,.50);
+      color:var(--ink);
+      cursor:pointer;
+      white-space:nowrap;
+      transition: background .22s ease, color .22s ease, border-color .22s ease;
+    }
+    .btn.primary{
+      background:#2b2b2b;
+      color:#ffffff;
+      border-color:#2b2b2b;
+    }
+    .btn:hover{ opacity:.92 }
+
+    body.hero-mode.scrolled .btn{
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.10);
+      color:#fff;
+    }
+    body.hero-mode.scrolled .btn.primary{
+      background:#ffffff;
+      color:#0f0f10;
+      border-color:#ffffff;
+    }
+
+    .band{position:relative;z-index:1;width:100%}
+    .band.bgA{background:var(--bgA)}
+    .band.bgB{background:var(--bgB)}
+    .band.bgC{background:var(--bgC)}
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding: 26px 18px 90px;
+    }
+
+    .section{margin-top:86px}
+    .hr{margin-top:86px;border:0;border-top:1px solid rgba(15,15,16,.10)}
+
+    /* HERO */
+    .hero{
+      position:relative;
+      height: calc(100vh - var(--headerH));
+      min-height: 640px;
+      overflow:hidden;
+
+      width:100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.58)),
+        url("hero-bg.png");
+      background-size:cover;
+      background-position:center;
+    }
+    .hero::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(1100px 520px at 20% 0%, rgba(255,255,255,.12), transparent 60%);
+      pointer-events:none;
+      opacity:.95;
+    }
+
+    .heroin{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:flex-start;
+      justify-content:flex-start;
+      text-align:center;
+      padding: 140px 18px 0;
+    }
+
+    .hero .herowrap{
+      max-width: none;
+      display: flex;
+      margin: 0 auto;
+      flex-direction: column;
+      align-items: center;
+      width: calc(100vw - 64px);
+    }
+
+    .hero h1{
+      margin:10;
+      font-weight:800;
+      font-size: 5vw;
+      line-height: 1.2;
+      letter-spacing:-1.1px;
+      color:rgba(255, 255, 255, 0.96);
+      white-space: nowrap;
+      text-align: center;
+      display: inline-block;
+      padding: 0 0 .10em 0;
+    }
+
+    .hero p{
+      margin:8px auto 0;
+      font-size: clamp(18px, 2.2vw, 26px);
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.78);
+      max-width: 980px;
+    }
+
+    @media(max-width:900px){
+      .hero h1{ white-space: normal; font-size: clamp(34px, 7vw, 54px); }
+      .hero{ min-height: 520px; }
+      .heroin{ padding: 64px 18px 64px; }
+      .hero p{ font-size:15px; }
+    }
+
+    .kicker{
+      font-size:12px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color: var(--muted2);
+      margin:0 0 10px;
+    }
+    h2{
+      margin:0;
+      font-size:34px;
+      letter-spacing:-.4px;
+      line-height:1.15;
+    }
+    .lead{
+      margin:12px 0 0;
+      font-size:16px;
+      line-height:1.8;
+      color: var(--muted);
+      max-width: none;
+    }
+
+    /* WHY (more breathing room) */
+    .why{
+      margin-top:34px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap:46px 56px;
+    }
+    @media(max-width:980px){
+      .why{ grid-template-columns: 1fr; gap:26px; }
+    }
+    .whyitem{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      padding-top: 2px;
+    }
+    .whytitle{
+      font-size:14px;
+      font-weight:800;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color: var(--ink);
+    }
+     
+.whyitem{
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* center everything horizontally */
+  text-align: center;      /* optional, remove if you prefer left text */
+}
+
+/* fixed image frame */
+.whyimg{
+  width: 96px;             /* <-- adjust: 72 / 80 / 96 */
+  height: 96px;
+  object-fit: contain;
+  display: block;
+  margin-bottom: 6px;
+}
+
+@media (max-width: 768px){
+  .whyimg{
+    width: 72px;
+    height: 72px;
+  }
+}
+
+
+/* ===== ABOUT (clean, academic) ===== */
+.aboutPro{
+  margin-top:26px;
+  display:grid;
+  grid-template-columns: 220px 1fr;
+  gap:28px;
+  align-items:start;
+  max-width: none;
+}
+@media(max-width:820px){
+  .aboutPro{ grid-template-columns:1fr; }
+}
+
+/* Square photo, no card */
+.avatarSq{
+  width:100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 6px; /* subtle, almost square */
+  overflow:hidden;
+  border: 1px solid rgba(15,15,16,.10);
+  background: rgba(255,255,255,.9);
+}
+.avatarSq img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center;
+}
+
+/* Name only */
+/* Name + academic icons */
+.nameRow{
+  margin-top:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.pname{
+  font-size:16px;
+  font-weight:500;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  line-height:1.2;
+}
+
+/* Icons (B&W, academic) */
+.profileLinks{
+  display:flex;
+  gap:10px;
+}
+
+.profileLinks a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:18px;
+  height:18px;
+  opacity:.65;
+  transition: opacity .15s ease;
+}
+
+.profileLinks a:hover{
+  opacity:1;
+}
+
+.profileLinks svg{
+  width:18px;
+  height:18px;
+  fill:#0f0f10;
+}
+
+
+/* Right text */
+.aboutText h2{
+  margin:0;
+  font-size:34px;
+  letter-spacing:-.4px;
+  line-height:1.15;
+}
+.aboutText .lead{
+  margin-top:12px;
+  max-width:none;
+}
+
+/* Bullet highlights */
+.highlights{
+  margin:16px 0 0;
+  padding:0;
+  list-style:none;
+  display:grid;
+  gap:10px;
+}
+.highlights li{
+  display:grid;
+  grid-template-columns: 18px 1fr;
+  gap:12px;
+  align-items:flex-start;
+  color: var(--muted);
+  line-height:1.75;
+  font-size:16px;
+}
+.highlights .dot{
+  width:12px;height:12px;
+  margin-top:7px;
+  border-radius:999px;
+  background: rgba(15,15,16,.10);
+}
+.highlights b{ color: var(--ink); }
+
+
+
+
+
+    .whytext{ font-size:16px; line-height:2.0; color: var(--muted); }
+
+    /* WHO (row-aligned two-column grid + centered images) */
+    .who{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap:26px;
+      row-gap:14px;
+      align-items:start;
+      max-width: 1080px;
+    }
+
+    .whoH{
+      margin:0;
+      font-size:22px;
+      letter-spacing:-.2px;
+      font-weight:700;
+    }
+    .whoH span{ font-weight:900; }
+    .whoH.good span{ color: var(--good); }
+    .whoH.bad  span{ color: var(--bad); }
+
+    .who .whorow{
+      display:grid;
+      grid-template-columns: 18px 1fr;
+      gap:14px;
+      align-items:flex-start;
+    }
+    .who .whorow .txt{
+      color: var(--muted);
+      line-height:1.9;
+      font-size:16px;
+    }
+    .who .whorow .txt b{ color: var(--ink); }
+
+    .who .mark{
+      width:14px;
+      height:14px;
+      margin-top: 10px;
+      border-radius: 999px;
+      position: relative;
+      background: rgba(15,15,16,.06);
+      border: 1px solid rgba(15,15,16,.16);
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    }
+    .who .mark::after{
+      content:"";
+      position:absolute;
+      inset:3px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: rgba(15,15,16,.55);
+      opacity:.90;
+    }
+
+    .whoImgCell{
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      margin-top: 10px;
+    }
+
+    .who .fitcard{
+      margin: 0;
+      border-radius: 22px;
+      overflow:hidden;
+      border: 1px solid rgba(15,15,16,.10);
+      box-shadow: var(--shadow2);
+      background: rgba(255,255,255,.72);
+      aspect-ratio: 16 / 9;
+      width: min(420px, 92%);
+    }
+    .who .fitcard img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+      object-position:center;
+    }
+
+    @media(max-width:980px){
+      .who{ grid-template-columns: 1fr; row-gap: 12px; }
+      .whoImgCell{ margin-top: 6px; }
+      .who .fitcard{ width: min(520px, 100%); }
+    }
+
+    /* Expectations */
+    .so{ margin-top:24px; max-width: none; }
+    .so h3{
+      margin:0;
+      font-size:46px;
+      letter-spacing:-.8px;
+      line-height:1.05;
+    }
+    @media(max-width:900px){ .so h3{font-size:36px} }
+    .so p{
+      margin:14px 0 0;
+      color: var(--muted);
+      line-height:1.9;
+      font-size:18px;
+      max-width: none;
+    }
+    .so p em{font-style:italic}
+
+    /* ✅ Make cartoon and results box match height */
+    .calcgrid{
+      margin-top:26px;
+      display:grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap:26px;
+      align-items:stretch; /* ✅ key */
+    }
+    @media(max-width:980px){ .calcgrid{grid-template-columns:1fr} }
+
+    .cartoon{
+      border-radius: 28px;
+      overflow:hidden;
+      border: 1px solid rgba(15,15,16,.10);
+      box-shadow: var(--shadow2);
+      background: rgba(255,255,255,.70);
+      height:100%;              /* ✅ key */
+    }
+    .cartoon img{
+      width:100%;
+      height:100%;              /* ✅ key */
+      display:block;
+      object-fit:cover;         /* ✅ crop to match height */
+      object-position:center;
+    }
+
+    .calc{
+      border-radius: 28px;
+      background: rgba(255,255,255,.76);
+      border: 1px solid rgba(15,15,16,.10);
+      box-shadow: var(--shadow2);
+      padding:20px;
+      height:100%;              /* ✅ key */
+    }
+
+    /* Controls: two rows inside the calculator */
+    .controls{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-bottom:16px;
+    }
+
+    .controls .raterow{
+      grid-column: 1 / -1;
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:10px;
+    }
+
+    .controls .feerow{
+      grid-column: 1 / -1;
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:10px;
+    }
+
+    @media(max-width:900px){
+      .controls{ grid-template-columns:1fr; }
+      .controls .raterow{ grid-template-columns:1fr; }
+      .controls .feerow{ grid-template-columns:1fr; }
+    }
+
+    .field label{
+      display:block;
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color: var(--muted2);
+      margin:0 0 8px;
+    }
+    .field input{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(15,15,16,.14);
+      background:rgba(255,255,255,.92);
+      padding:6px 12px;
+      font-size:14px;
+      min-height:28px;
+      outline:none;
+    }
+    .field input:focus{
+      border-color: rgba(15,15,16,.32);
+      box-shadow: 0 0 0 4px rgba(15,15,16,.06);
+    }
+
+    .savings{
+      display:grid;
+      grid-template-columns: repeat(3,1fr);
+      gap:10px;
+      margin-top:10px;
+    }
+    @media(max-width:980px){ .savings{grid-template-columns:1fr} }
+
+    .savebox{
+      border-radius:18px;
+      padding:14px 14px;
+      border: 1px solid rgba(15,15,16,.10);
+      background: rgba(255,255,255,.88);
+      min-width:0;
+      overflow:hidden;
+    }
+
+    .savebox .t{
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color: var(--muted2);
+    }
+
+    .metaRow{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 0 12px;
+      border-top:1px solid rgba(15,15,16,.08);
+      border-bottom:1px solid rgba(15,15,16,.08);
+      margin-bottom:12px;
+      min-width:0;
+    }
+    .metaRow .k{
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color: var(--muted2);
+      min-width: 0;
+    }
+    .metaRow .m{
+      font-weight:900;
+      color: var(--ink);
+      font-size:13px;
+      white-space:nowrap;
+      flex: 0 0 auto;
+    }
+
+    .subhead{
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color: var(--muted2);
+      margin:0 0 10px;
+    }
+
+    .igRow{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      padding:8px 0;
+      border-bottom:1px solid rgba(15,15,16,.06);
+      gap:10px;
+      min-width:0;
+    }
+    .igRow:last-of-type{ border-bottom:none; }
+
+    .igRow .lbl{
+      font-weight:800;
+      min-width:0;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .igRow .amt{ font-weight:900; white-space:nowrap; }
+
+    /* row colors */
+    .igRow.nord .lbl, .igRow.nord .amt{ color:var(--gold); }
+    .igRow.robo .lbl, .igRow.robo .amt{ color: rgba(85,96,106,.95); }
+    .igRow.mgr  .lbl, .igRow.mgr  .amt{ color: rgba(122,111,99,.95); }
+    .igRow.bank .lbl, .igRow.bank .amt{ color: var(--bad); } /* ✅ magenta */
+
+    /* soften Robo/Manager/Bank weight */
+    .igRow.robo .lbl, .igRow.robo .amt,
+    .igRow.mgr  .lbl, .igRow.mgr  .amt,
+    .igRow.bank .lbl, .igRow.bank .amt{
+      font-weight:500;
+    }
+
+   /* Make Robo/Manager/Bank rows smaller than Nord */
+   .igRow.robo,
+   .igRow.mgr,
+   .igRow.bank{
+   font-size: 13px;   /* try 12px if you want smaller */
+   line-height: 1.15;
+  }
+
+   .igRow.robo,
+   .igRow.mgr,
+   .igRow.bank{
+   padding: 6px 0;
+  }
+
+    .brandlbl{ font-weight:900; }
+    .brandN{ color: var(--ink); }
+    .brandDot{ color:var(--gold); }
+
+    .totalNord{
+      margin-top:14px;
+      padding-top:14px;
+      border-top:1px solid rgba(15,15,16,.08);
+    }
+    .totalNord .k{
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color: var(--muted2);
+    }
+    .totalNord .v{
+      margin-top:8px;
+      font-weight:900;
+      letter-spacing:-.4px;
+      color: var(--ink);
+      white-space:nowrap;
+      font-size: clamp(18px, 2.4vw, 26px);
+      line-height:1.05;
+    }
+
+    .xmult{
+      margin-top:6px;
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color: var(--muted2);
+    }
+    .xmult b{ color: var(--ink); font-weight:900; }
+
+    .delta{
+      margin-top:12px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      font-size:12px;
+      color: var(--muted2);
+    }
+    .delta .drow{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:baseline;
+    }
+    .delta .drow .left{
+      white-space:nowrap;
+    }
+    .delta .drow .left b{
+      font-weight:900;
+    }
+    .delta .drow.pos .left b{ color: var(--pos); }
+    .delta .drow.neg .left b{ color: var(--neg); }
+    .delta .drow .right{
+      color: var(--muted2);
+      font-weight:600;
+      white-space:nowrap;
+    }
+
+    /* SERVICES */
+    .svc{margin-top:26px;max-width: none;}
+    .svc .intro{margin-top:12px;color: var(--muted);line-height:1.9;font-size:16px;max-width: none;}
+    .svc .line{margin-top:18px;padding:18px 0;border-top:1px solid rgba(15,15,16,.10);}
+    .svc .row{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:baseline;}
+    .svc .name{font-weight:800}
+    .svc .price{font-weight:900}
+    .svc .desc{margin-top:8px;color: var(--muted);line-height:1.9;font-size:16px;max-width: none;}
+
+    /* ABOUT */
+    .about{
+      margin-top:26px;
+      display:grid;
+      grid-template-columns: 120px 1fr;
+      gap:18px;
+      align-items:start;
+      max-width: none;
+    }
+    @media(max-width:650px){ .about{grid-template-columns:1fr} }
+    .avatar{
+      width:120px;height:120px;border-radius:999px;
+      overflow:hidden;
+      border:1px solid rgba(15,15,16,.10);
+      box-shadow: var(--shadow2);
+      background: rgba(255,255,255,.7);
+    }
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+
+    /* CONTACT + MAP */
+    .contact-grid{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap:26px;
+      align-items:stretch;
+    }
+    @media(max-width:980px){ .contact-grid{grid-template-columns:1fr} }
+
+    .card{
+      border-radius: 26px;
+      background: rgba(255,255,255,.76);
+      border: 1px solid rgba(15,15,16,.10);
+      box-shadow: var(--shadow2);
+      padding:18px;
+      height:100%;
+    }
+
+    form{margin-top:6px;}
+    form .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    @media(max-width:720px){ form .row{grid-template-columns:1fr} }
+
+    .formlabel{
+      display:block;
+      margin:14px 0 8px;
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color: var(--muted2);
+    }
+    .forminput, textarea{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(15,15,16,.14);
+      background: rgba(255,255,255,.96);
+      color: var(--ink);
+      padding:12px 12px;
+      font-size:14px;
+      outline:none;
+    }
+    textarea{min-height:140px; resize:vertical}
+    .forminput:focus, textarea:focus{border-color: rgba(15,15,16,.40)}
+
+    .map{
+      border-radius: 26px;
+      overflow:hidden;
+      border: 1px solid rgba(15,15,16,.10);
+      box-shadow: var(--shadow2);
+      background: rgba(255,255,255,.76);
+      height:100%;
+      max-height: 520px;
+    }
+    .map iframe{width:100%;height:100%;border:0;display:block}
+    .map-foot{
+      padding:12px 14px 14px;
+      border-top:1px solid rgba(15,15,16,.08);
+      color: var(--muted);
+      line-height:1.6;
+      font-size:14px;
+      background: rgba(255,255,255,.86);
+    }
+    .map-foot .label{
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color: var(--muted2);
+      margin-bottom:6px;
+    }
+
+    .refs{
+      margin-top:18px;
+      max-width: 980px;
+      color: var(--muted);
+      line-height:1.8;
+      font-size:14px;
+    }
+    .refs ol{margin:0;padding-left:18px}
+    .refs li{margin:10px 0}
+
+/* ===== THE BASE (references) ===== */
+
+.refsGrid{
+  margin-top: 22px;
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.refGroup{
+  padding: 18px 18px;
+  border: 1px solid rgba(15,15,16,.10);
+  border-radius: 18px;
+  background: rgba(255,255,255,.40);
+  box-shadow: var(--shadow2);
+}
+
+.refGroupTitle{
+  font-weight: 900;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: var(--muted2);
+  margin-bottom: 10px;
+}
+
+.refsList{
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 14px;
+}
+
+.refsList li{ margin: 10px 0; }
+
+.refNote{
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--muted2);
+  line-height: 1.7;
+}
+
+@media (max-width: 860px){
+  .refsGrid{ grid-template-columns: 1fr; }
+}
+
+
+    footer{
+      margin-top:86px;
+      padding-top:18px;
+      border-top:1px solid rgba(15,15,16,.10);
+      color: var(--muted2);
+      font-size:12px;
+      line-height:1.7;
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    html{scroll-behavior:smooth}
+  
+
+/* language dropdown (compact) */
+.langDD{ position:relative; display:inline-flex; align-items:center; margin-left:6px; }
+.langBtn{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 10px;
+  border:1px solid rgba(15,15,16,.14);
+  background:rgba(255,255,255,.50);
+  border-radius:999px;
+  color:var(--ink);
+  cursor:pointer;
+  white-space:nowrap;
+}
+.langLbl{
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:rgba(15,15,16,.85);
+}
+.langIco, .langChev{ opacity:.78; }
+
+.langMenu{
+  position:absolute; right:0; top:calc(100% + 8px);
+  min-width:190px; padding:8px;
+  border-radius:16px;
+  border:1px solid rgba(15,15,16,.12);
+  background:#fff;
+  box-shadow:0 12px 30px rgba(15,15,16,.10);
+  display:none;
+  z-index:120;
+}
+.langMenu a{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 10px;
+  border-radius:12px;
+  text-decoration:none;
+  color:rgba(15,15,16,.88);
+  font-weight:700;
+  font-size:13px;
+}
+.langMenu a:hover{ background:rgba(15,15,16,.06); }
+.langMenu a[aria-current="page"]{ color:var(--ink); }
+.langDD.open .langMenu{ display:block; }
+
+@media (max-width:860px){
+  .langBtn{ padding:8px 10px; }
+}
+</style>
+
+<link rel="alternate" hreflang="en" href="../en/" />
+<link rel="alternate" hreflang="de" href="./" />
+<link rel="alternate" hreflang="fr" href="../fr/" />
+<link rel="alternate" hreflang="it" href="../it/" />
+<link rel="alternate" hreflang="es" href="../es/" />
+<link rel="alternate" hreflang="x-default" href="../" />
+<link rel="canonical" href="./" />
+</head>
+
+<body>
+<div aria-hidden="true" class="noise"></div>
+<header>
+<div class="nav">
+<a aria-label="Home" class="brand" href="#top">
+<img alt="Nord logo" class="logo" src="north-logo.png"/>
+<div class="brandtext">
+<div class="tag">Evidenzbasierte Investment‑Bildung</div>
+</div>
+</a>
+<nav>
+<a class="link" href="#why">Warum</a>
+<a class="link" href="#who">Für wen</a>
+<a class="link" href="#expectations">Erwartungen</a>
+<a class="link" href="#services">Leistungen</a>
+<a class="link" href="#about">Über mich</a>
+<a class="btn primary" href="#contact">Termin buchen</a>
+<a class="link" href="#the-base">Grundlagen</a>
+<div aria-label="Language" class="langSwitch"><a class="langLink" href="/en/">EN</a><a class="langLink active" href="/de/">DE</a><a class="langLink" href="/fr/">FR</a><a class="langLink" href="/it/">IT</a><a class="langLink" href="/es/">ES</a></div></nav>
+</div>
+</header>
+<!-- HERO -->
+<section class="band" id="top">
+<div aria-label="Hero" class="hero">
+<div class="heroin">
+<div class="herowrap">
+<h1>Lerne, dein Vermögen zu managen</h1>
+<p>
+            Setze einen Kurs, dem du jahrzehntelang folgen kannst: verstehe die Märkte, baue einen langfristigen Plan auf und vermeide sich aufaddierende prozentuale Gebühren.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- BAND B -->
+<section class="band bgB">
+<div class="wrap">
+<section class="section" id="why">
+<p class="kicker">Warum NORD· existiert</p>
+<h2>Märkte sind keine Magie — und du brauchst keinen teuren Vermittler, um mitzumachen.</h2>
+<p class="lead">
+          Niemand kann den Markt zuverlässig schlagen. Aber wir haben mehr als ein Jahrhundert Daten und eine kleine Anzahl robuster Ideen, dokumentiert in öffentlicher Forschung (Fama, Shiller, Bernstein u. a.).
+          Dieser Service ist für Menschen, die die Evidenz verstehen und ihr Vermögen mit Klarheit steuern wollen.
+        </p>
+<div aria-label="Why points" class="why">
+<div class="whyitem">
+<img alt="" aria-hidden="true" class="whyimg" src="why-1.png"/>
+<div class="whytitle">Das Kernwissen ist öffentlich</div>
+<div class="whytext">
+      Du kannst es in einer fokussierten Session lernen und über Jahrzehnte anwenden.
+    </div>
+</div>
+<div class="whyitem">
+<img alt="" aria-hidden="true" class="whyimg" src="why-2.png"/>
+<div class="whytitle">Langfristiges Investieren (10+ Jahre)</div>
+<div class="whytext">
+      Hier wird der Zinseszinseffekt wirklich relevant.
+    </div>
+</div>
+<div class="whyitem">
+<img alt="" aria-hidden="true" class="whyimg" src="why-3.png"/>
+<div class="whytitle">Gebühren wirken gegen dich (Zinseszins)</div>
+<div class="whytext">
+      Mit der Zeit zahlst du oft für Bequemlichkeit — nicht für überlegenes Wissen.
+    </div>
+</div>
+<div class="whyitem">
+<img alt="" aria-hidden="true" class="whyimg" src="why-4.png"/>
+<div class="whytitle">Trading und „Tipps“</div>
+<div class="whytext">
+      Nach Kosten schneiden sie typischerweise schlechter ab; die Evidenz ist über Märkte und Zeiträume hinweg stark.
+    </div>
+</div>
+<div class="whyitem">
+<img alt="" aria-hidden="true" class="whyimg" src="why-5.png"/>
+<div class="whytitle">Makroökonomie lohnt sich</div>
+<div class="whytext">
+      Inflation, Zinsen, Anleihen vs. Aktien, Wachstum, Demografie, Produktivität, Bewertung.
+    </div>
+</div>
+<div class="whyitem">
+<img alt="" aria-hidden="true" class="whyimg" src="why-6.png"/>
+<div class="whytitle">Einfach schlägt komplex</div>
+<div class="whytext">
+      Dank akademischer Finanzforschung und quantitativen Denkens sind die Grundlagen überraschend einfach.
+      Komplexität existiert oft, weil sie laufende Gebühren rechtfertigt.
+    </div>
+</div>
+</div>
+</section>
+<hr class="hr"/>
+<section class="section" id="who">
+<p class="kicker">Für wen ist NORD·</p>
+<h2>Für Menschen, die lernen und die Kontrolle übernehmen wollen</h2>
+<p class="lead">
+          Dies ist ein Bildungsangebot für langfristiges, evidenzbasiertes Investieren. Es ist für Menschen, die Klarheit wollen,
+          keine Geschichten — und die ihre Investments selbst umsetzen möchten.
+        </p>
+<div aria-label="Who it is for" class="who">
+<div class="whoH good"><span>Passt</span> gut</div>
+<div class="whoH bad"><span>Passt</span> nicht</div>
+<div class="whorow">
+<div aria-hidden="true" class="mark"></div>
+<div class="txt"><b>Du willst lernen</b> wie Märkte funktionieren und wie du einen Plan baust, dem du folgen kannst.</div>
+</div>
+<div class="whorow">
+<div aria-hidden="true" class="mark"></div>
+<div class="txt"><b>Du magst Wetten</b>, Spekulation, „Tipps“ oder irrationales Investieren.</div>
+</div>
+<div class="whorow">
+<div aria-hidden="true" class="mark"></div>
+<div class="txt"><b>Du hast ein quantitatives/wissenschaftliches Interesse</b> und bevorzugst Evidenz gegenüber Meinungen.</div>
+</div>
+<div class="whorow">
+<div aria-hidden="true" class="mark"></div>
+<div class="txt"><b>Du willst nicht lernen</b> oder du willst alles dauerhaft delegieren.</div>
+</div>
+<div class="whorow">
+<div aria-hidden="true" class="mark"></div>
+<div class="txt"><b>Du willst langfristige, solide Ergebnisse</b> (10+ Jahre) statt kurzfristiger Aufregung.</div>
+</div>
+<div class="whorow">
+<div aria-hidden="true" class="mark"></div>
+<div class="txt"><b>Du willst null Aufwand.</b> Es ist nicht viel Arbeit — aber nicht null.</div>
+</div>
+<div class="whorow">
+<div aria-hidden="true" class="mark"></div>
+<div class="txt"><b>Du willst Autonomie</b>: Du besitzt den Prozess und hältst Gebühren niedrig.</div>
+</div>
+<div class="whorow">
+<div aria-hidden="true" class="mark"></div>
+<div class="txt"><b>Du erwartest garantierte Überrendite.</b> So funktionieren Märkte nicht.</div>
+</div>
+<div class="whoImgCell">
+<figure aria-label="Good fit illustration" class="fitcard">
+<img alt="Good fit illustration" src="fit-person.jpg"/>
+</figure>
+</div>
+<div class="whoImgCell">
+<figure aria-label="Not a fit illustration" class="fitcard">
+<img alt="Not a fit illustration" src="not-fit-person.jpg"/>
+</figure>
+</div>
+</div>
+</section>
+<hr class="hr"/>
+<section class="section" id="expectations">
+<p class="kicker">Was du von NORD· erwarten kannst</p>
+<div class="so">
+<h3>Kleine Reibungen werden zu großen Unterschieden</h3>
+<p>
+            Der Markt ist wahrscheinlich <em>teurer als früher</em>, was bedeutet, dass künftige Renditen niedriger sein können als in manchen vergangenen Jahrzehnten.
+            Trotzdem ist eine konservative Annahme von <b>Realrendite</b> eine vernünftige Basis für langfristige Planung.
+            Entscheidend ist: Es verzinst sich — und Gebühren sowie Inflation verzinsen sich ebenfalls (gegen dich).
+          </p>
+</div>
+<div aria-label="Calculator + illustration" class="calcgrid">
+<div class="cartoon"><img alt="Illustration about compounding effects" src="cartoon.jpg"/></div>
+<div aria-label="Fee savings calculator" class="calc">
+<div class="controls">
+<div class="field">
+<label>Startbetrag (CHF)</label>
+<input id="inpLump" min="0" step="1000" type="number" value="100000"/>
+</div>
+<div class="field">
+<label>Monatliche Einzahlung (CHF)</label>
+<input id="inpMonthly" min="0" step="100" type="number" value="2000"/>
+</div>
+<div class="raterow">
+<div class="field">
+<label>Realrendite (%/Jahr)</label>
+<input id="inpReturn" max="15" min="-5" step="0.1" type="number" value="5"/>
+</div>
+<div class="field">
+<label>Inflation (%/Jahr)</label>
+<input id="inpInfl" max="15" min="-2" step="0.1" type="number" value="1"/>
+</div>
+</div>
+<div class="feerow">
+<div class="field">
+<label>Robo‑Advisor‑Gebühr (%/Jahr)</label>
+<input id="inpRobo" max="5" min="0" step="0.05" type="number" value="0.5"/>
+</div>
+<div class="field">
+<label>Vermögensverwalter‑Gebühr (%/Jahr)</label>
+<input id="inpMgr" max="5" min="0" step="0.05" type="number" value="1.5"/>
+</div>
+</div>
+</div>
+<div aria-label="Savings summary" class="savings">
+<!-- 10Y -->
+<div class="savebox">
+<div class="t">Nach 10 Jahren</div>
+<div class="metaRow">
+<span class="k">Gesamteinzahlungen</span>
+<span class="m" id="contrib10">CHF —</span>
+</div>
+<div class="subhead">Erträge</div>
+<div class="igRow nord">
+<span class="lbl brandlbl"><span class="brandN">NORD</span><span class="brandDot">·</span></span>
+<span class="amt" id="int10_nord">CHF —</span>
+</div>
+<div class="igRow robo">
+<span class="lbl">Robo‑Ad</span>
+<span class="amt" id="int10_robo">CHF —</span>
+</div>
+<div class="igRow mgr">
+<span class="lbl">Manager</span>
+<span class="amt" id="int10_mgr">CHF —</span>
+</div>
+<div class="igRow bank">
+<span class="lbl">Bankkonto</span>
+<span class="amt" id="int10_bank">CHF —</span>
+</div>
+<div class="totalNord">
+<div class="k">Gesamtvermögen</div>
+<div class="v" id="tot10_nord">CHF —</div>
+<div class="xmult" id="x10">—× total contributions</div>
+</div>
+<div class="delta">
+<div class="drow" id="drow10_robo">
+<div class="left" id="d10_robo_left"><b>+CHF —</b></div>
+<div class="right">vs Robo‑Ad</div>
+</div>
+<div class="drow" id="drow10_mgr">
+<div class="left" id="d10_mgr_left"><b>+CHF —</b></div>
+<div class="right">vs Manager</div>
+</div>
+<div class="drow" id="drow10_bank">
+<div class="left" id="d10_bank_left"><b>+CHF —</b></div>
+<div class="right">vs Bankkonto</div>
+</div>
+</div>
+</div>
+<!-- 20Y -->
+<div class="savebox">
+<div class="t">Nach 20 Jahren</div>
+<div class="metaRow">
+<span class="k">Gesamteinzahlungen</span>
+<span class="m" id="contrib20">CHF —</span>
+</div>
+<div class="subhead">Erträge</div>
+<div class="igRow nord">
+<span class="lbl brandlbl"><span class="brandN">NORD</span><span class="brandDot">·</span></span>
+<span class="amt" id="int20_nord">CHF —</span>
+</div>
+<div class="igRow robo">
+<span class="lbl">Robo‑Ad</span>
+<span class="amt" id="int20_robo">CHF —</span>
+</div>
+<div class="igRow mgr">
+<span class="lbl">Manager</span>
+<span class="amt" id="int20_mgr">CHF —</span>
+</div>
+<div class="igRow bank">
+<span class="lbl">Bankkonto</span>
+<span class="amt" id="int20_bank">CHF —</span>
+</div>
+<div class="totalNord">
+<div class="k">Gesamtvermögen</div>
+<div class="v" id="tot20_nord">CHF —</div>
+<div class="xmult" id="x20">—× total contributions</div>
+</div>
+<div class="delta">
+<div class="drow" id="drow20_robo">
+<div class="left" id="d20_robo_left"><b>+CHF —</b></div>
+<div class="right">vs Robo‑Ad</div>
+</div>
+<div class="drow" id="drow20_mgr">
+<div class="left" id="d20_mgr_left"><b>+CHF —</b></div>
+<div class="right">vs Manager</div>
+</div>
+<div class="drow" id="drow20_bank">
+<div class="left" id="d20_bank_left"><b>+CHF —</b></div>
+<div class="right">vs Bankkonto</div>
+</div>
+</div>
+</div>
+<!-- 30Y -->
+<div class="savebox">
+<div class="t">Nach 30 Jahren</div>
+<div class="metaRow">
+<span class="k">Gesamteinzahlungen</span>
+<span class="m" id="contrib30">CHF —</span>
+</div>
+<div class="subhead">Erträge</div>
+<div class="igRow nord">
+<span class="lbl brandlbl"><span class="brandN">NORD</span><span class="brandDot">·</span></span>
+<span class="amt" id="int30_nord">CHF —</span>
+</div>
+<div class="igRow robo">
+<span class="lbl">Robo‑Ad</span>
+<span class="amt" id="int30_robo">CHF —</span>
+</div>
+<div class="igRow mgr">
+<span class="lbl">Manager</span>
+<span class="amt" id="int30_mgr">CHF —</span>
+</div>
+<div class="igRow bank">
+<span class="lbl">Bankkonto</span>
+<span class="amt" id="int30_bank">CHF —</span>
+</div>
+<div class="totalNord">
+<div class="k">Gesamtvermögen</div>
+<div class="v" id="tot30_nord">CHF —</div>
+<div class="xmult" id="x30">—× total contributions</div>
+</div>
+<div class="delta">
+<div class="drow" id="drow30_robo">
+<div class="left" id="d30_robo_left"><b>+CHF —</b></div>
+<div class="right">vs Robo‑Ad</div>
+</div>
+<div class="drow" id="drow30_mgr">
+<div class="left" id="d30_mgr_left"><b>+CHF —</b></div>
+<div class="right">vs Manager</div>
+</div>
+<div class="drow" id="drow30_bank">
+<div class="left" id="d30_bank_left"><b>+CHF —</b></div>
+<div class="right">vs Bankkonto</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<hr class="hr"/>
+<section class="section" id="services">
+<p class="kicker">Leistungen</p>
+<h2>Einfaches Pauschalhonorar</h2>
+<div aria-label="Services" class="svc">
+<p class="intro">
+            Eine einzige detaillierte Session reicht, um zu verstehen, was du brauchst — <b>Theorie + Praxis</b>.
+            Dank akademischer Finanzforschung und quantitativen Denkens sind die Grundlagen überraschend einfach.
+            Wer es kompliziert macht, tut das oft, weil Komplexität laufende Gebühren rechtfertigt.
+          </p>
+<div class="line showing">
+<div class="row">
+<div class="name">Kostenloses Erstgespräch (15 Minuten)</div>
+<div class="price"></div>
+</div>
+<div class="desc">
+              Kurzer Anruf, um deine Situation zu verstehen und zu prüfen, ob die Session passt.
+            </div>
+</div>
+<div class="line">
+<div class="row">
+<div class="name">Bildungs‑Session (3 Stunden)</div>
+<div class="price">CHF 1,200</div>
+</div>
+<div class="desc">
+              Markets, diversification, risk, expected returns, and a Swiss-oriented long-term portfolio plan —
+              plus a practical execution checklist and the required software, so you can implement it yourself.
+            </div>
+</div>
+<div class="line">
+<div class="row">
+<div class="name">Follow‑up‑Session (1 Stunde)</div>
+<div class="price">CHF 300</div>
+</div>
+<div class="desc">
+              Review, Fragen und Updates, wenn sich das Leben ändert — ohne deinen Plan zu einem „Produkt“ zu machen.
+            </div>
+</div></div></section>
+<hr class="hr"/>
+</div>
+</section>
+<!-- BAND C -->
+<section class="band bgC">
+<div class="wrap">
+<section class="section" id="about">
+<p class="kicker">Über mich</p>
+<div class="aboutPro">
+<!-- LEFT: photo + name -->
+<div>
+<div aria-label="Profile photo" class="avatarSq">
+<img alt="Pablo Au" src="Pablo.jpg">
+</img></div>
+<div class="nameRow">
+<div class="pname">PABLO AURELIO</div>
+<div aria-label="Profiles" class="profileLinks">
+<!-- Google Scholar -->
+<a aria-label="Google Scholar" href="https://scholar.google.es/citations?user=wBn676IAAAAJ&amp;hl=es" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" viewbox="0 0 24 24">
+<path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 8.75L5.82 9 12 5.25 18.18 9 12 11.75z"></path>
+<path d="M12 13.5l-7-3.82V15c0 2.76 3.13 5 7 5s7-2.24 7-5V9.68l-7 3.82z"></path>
+</svg>
+</a>
+<!-- LinkedIn -->
+<a aria-label="LinkedIn" href="https://www.linkedin.com/in/pablo-aurelio/" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" viewbox="0 0 24 24">
+<path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 23.5h4V7.98h-4V23.5zM8.5 7.98h3.8v2.12h.05c.53-1 1.83-2.12 3.77-2.12 4.03 0 4.78 2.65 4.78 6.1v9.42h-4v-8.36c0-2-.04-4.57-2.79-4.57-2.8 0-3.23 2.18-3.23 4.43v8.5h-4V7.98z"></path>
+</svg>
+</a>
+</div>
+</div>
+</div>
+<!-- RIGHT: text -->
+<div class="aboutText">
+<h2>Ein fokussierter, evidenzbasierter Ansatz</h2>
+<p class="lead">
+        Ich bin Senior Scientist an der ETH Zürich und arbeite in der Biophysik. Ich begann, Ökonomie zu lernen
+        aus demselben Grund, aus dem ich Wissenschaft mache: um zu verstehen, wie sich komplexe Systeme mit möglichst wenig
+        Storytelling verhalten. Mit der Zeit fiel mir auf, dass vieles, was beim langfristigen Investieren zählt,
+        öffentliches Wissen ist — aber oft hinter wiederkehrenden Gebühren und unnötiger Komplexität verpackt wird.
+      </p>
+<ul aria-label="Highlights" class="highlights">
+<li>
+<span aria-hidden="true" class="dot"></span>
+<span><b>Evidenz zuerst:</b> Märkte, Diversifikation, Risiko und erwartete Renditen — auf Daten statt Narrative gestützt.</span>
+</li>
+<li>
+<span aria-hidden="true" class="dot"></span>
+<span><b>Praktische Struktur:</b> ein langfristiger Plan, abgestimmt auf deinen Horizont und deine constraints, bewusst einfach und robust.</span>
+</li>
+<li>
+<span aria-hidden="true" class="dot"></span>
+<span><b>Unabhängigkeit:</b> kein Produktverkauf und keine prozentbasierten Gebühren — nur Bildung und ein Framework, das du kontrollierst.</span>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<hr class="hr"/>
+<section class="section" id="contact">
+<p class="kicker">Termin buchen</p>
+<h2>Kontakt &amp; Ort</h2>
+<p class="lead">
+    Sessions finden nach Vereinbarung statt. Persönliche Treffen können in Zürich stattfinden,
+    u. a. in Räumen der ETH Zürich (Campus Hönggerberg), oder online. Schreib mir und ich antworte mit den nächsten Schritten.
+  </p>
+<div class="contact-grid">
+<div class="card">
+<form action="https://formspree.io/f/mnjqadnq" method="POST">
+<div class="row">
+<div>
+<label class="formlabel" for="name">Name</label>
+<input class="forminput" id="name" name="name" required=""/>
+</div>
+<div>
+<label class="formlabel" for="email">E‑Mail</label>
+<input class="forminput" id="email" name="email" required="" type="email"/>
+</div>
+</div>
+<div class="row">
+<div>
+<label class="formlabel" for="phone">Telefon</label>
+<input class="forminput" id="phone" name="phone" type="tel"/>
+</div>
+<div>
+<label class="formlabel" for="topic">Thema</label>
+<input class="forminput" id="topic" name="topic"/>
+</div>
+</div>
+<label class="formlabel" for="message">Nachricht</label>
+<textarea id="message" name="message" required=""></textarea>
+<div style="margin-top:16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+<button class="btn primary" type="submit">Senden</button>
+</div>
+</form>
+</div>
+<div aria-label="Map of ETH Zürich Hönggerberg, Zurich" class="map">
+<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=ETH%20Z%C3%BCrich%20H%C3%B6nggerberg&amp;output=embed" title="Map: ETH Zürich Hönggerberg, Zurich">
+</iframe>
+<div class="map-foot">
+<div class="label">Treffpunkt</div>
+<div>Zürich — ETH Zürich, Campus Hönggerberg</div>
+</div>
+</div>
+</div>
+</section>
+<hr class="hr"/>
+<section class="section" id="the-base">
+<p class="kicker">Die Basis</p>
+<h2 class="sectionTitle">Pioniere, Referenzen und Daten</h2>
+<p class="sectionSub">
+    Die meisten Daten sind öffentlich. Das sind die Menschen, die sie gesammelt und in Büchern und Papers erklärt haben. Daran hat sich nichts geändert.
+  </p>
+<div class="refsGrid">
+<!-- Market foundations -->
+<div class="refGroup">
+<div class="refGroupTitle">Markt‑Grundlagen</div>
+<ul class="refsList">
+<li>Markowitz (1952) — Portfolio Selection.</li>
+<li>Sharpe (1964) — Capital Asset Pricing Model (CAPM).</li>
+<li>Samuelson (1965) — Proof That Properly Anticipated Prices Fluctuate Randomly.</li>
+<li>Fama (1970) — Efficient Capital Markets.</li>
+<li>Merton (1973) — Intertemporal Capital Asset Pricing Model.</li>
+</ul>
+</div>
+<!-- Factor investing -->
+<div class="refGroup">
+<div class="refGroupTitle">Factor investing</div>
+<ul class="refsList">
+<li>Fama &amp; French (1992) — Cross-Section of Expected Stock Returns.</li>
+<li>Jegadeesh &amp; Titman (1993) — Returns to Buying Winners and Selling Losers.</li>
+<li>Fama &amp; French (1993) — Common Risk Factors in Stocks and Bonds.</li>
+<li>Carhart (1997) — Persistence in Mutual Fund Performance.</li>
+<li>Fama &amp; French (2015) — Five-Factor Asset Pricing Model.</li>
+</ul>
+</div>
+<!-- Limits of trading -->
+<div class="refGroup">
+<div class="refGroupTitle">Grenzen von Trading und aktivem Management</div>
+<ul class="refsList">
+<li>Carhart (1997) — Persistence in Mutual Fund Performance.</li>
+<li>Barber &amp; Odean (2000) — Trading Is Hazardous to Your Wealth.</li>
+<li>Barber &amp; Odean (2001) — Overconfidence and Excessive Trading.</li>
+<li>SPIVA Reports (ongoing) — Active funds vs benchmark performance.</li>
+</ul>
+</div>
+<!-- Data collection -->
+<div class="refGroup">
+<div class="refGroupTitle">Datenerhebung</div>
+<ul class="refsList">
+<li>Cowles Commission (1930s) — Early systematic market datasets.</li>
+<li>CRSP (1960–) — Long-run U.S. stock return database (data back to 1926).</li>
+<li>Shiller (1981) — Do Stock Prices Move Too Much to Be Justified by Subsequent Changes in Dividends?</li>
+<li>Dimson, Marsh &amp; Staunton (2023) — Global Investment Returns Yearbook.</li>
+</ul>
+</div>
+</div>
+</section>
+<footer>
+<div style="display:flex;flex-direction:column;gap:4px;">
+<div style="margin-top:6px;">NORDpoint © <span id="year"></span></div>
+</div>
+</footer>
+</div>
+</section>
+<script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Header state
+    (function(){
+      const hero = document.querySelector(".hero");
+      const headerH = parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue("--headerH")
+      ) || 62;
+
+      function updateHeaderState(){
+        const scrollY = window.scrollY || window.pageYOffset;
+        const heroBottom = hero ? hero.getBoundingClientRect().bottom : 0;
+        const onHero = heroBottom > headerH + 8;
+
+        document.body.classList.toggle("hero-mode", onHero);
+        document.body.classList.toggle("scrolled", scrollY > 0);
+      }
+
+      window.addEventListener("scroll", updateHeaderState, { passive:true });
+      window.addEventListener("resize", updateHeaderState);
+      updateHeaderState();
+    })();
+
+    // ===== Calculator =====
+    const elLump    = document.getElementById("inpLump");
+    const elMonthly = document.getElementById("inpMonthly");
+    const elReturn  = document.getElementById("inpReturn");
+    const elInfl    = document.getElementById("inpInfl");
+    const elRobo    = document.getElementById("inpRobo");
+    const elMgr     = document.getElementById("inpMgr");
+
+    function clamp(v, lo, hi){ return Math.min(hi, Math.max(lo, v)); }
+
+    function fmtCHF(x){
+      // Compact CHF formatting with ~3 significant digits:
+      // 2.08M, 117k, 982 (always prefixed with CHF)
+      const n = Number(x || 0);
+      const sign = n < 0 ? "-" : "";
+      const a = Math.abs(n);
+
+      function sig(val, digits){
+        if(val === 0) return "0";
+        const d = digits || 3;
+        const pow = Math.floor(Math.log10(val));
+        const scale = Math.pow(10, d - 1 - pow);
+        const rounded = Math.round(val * scale) / scale;
+        let s = String(rounded);
+        if(s.indexOf("e") !== -1){
+          s = rounded.toFixed(Math.max(0, d - 1 - pow));
+        }
+        if(s.includes(".")){
+          s = s.replace(/0+$/,"").replace(/\.$/,"");
+        }
+        return s;
+      }
+
+      // k: user prefers rounding up (ceiling)
+      function sigCeil(val, digits){
+        if(val === 0) return "0";
+        const d = digits || 3;
+        const pow = Math.floor(Math.log10(val));
+        const dec = Math.max(0, d - 1 - pow);
+        const factor = Math.pow(10, dec);
+        const ceiled = Math.ceil(val * factor) / factor;
+        let s = ceiled.toFixed(dec);
+        if(s.includes(".")){
+          s = s.replace(/0+$/,"").replace(/\.$/,"");
+        }
+        return s;
+      }
+
+      let out;
+      if(a >= 1e6){
+        out = sig(a/1e6, 3) + "M";
+      }else if(a >= 1e3){
+        out = sigCeil(a/1e3, 3) + "k";
+      }else{
+        out = String(Math.round(a));
+      }
+      return `CHF ${sign}${out}`;
+    }
+
+    // Future value with monthly compounding, monthly contributions
+    function fvSeries(lump, monthly, annualRate, months){
+      const m = annualRate / 12;
+      let total = lump;
+      for(let i=0; i<months; i++){
+        total = total * (1 + m) + monthly;
+      }
+      return total;
+    }
+
+    function stats(years){
+      const lump    = Math.max(0, Number(elLump?.value || 0));
+      const monthly = Math.max(0, Number(elMonthly?.value || 0));
+
+      const rReal   = Number(elReturn?.value || 5) / 100; // real return
+      const infl    = Number(elInfl?.value || 1) / 100;   // inflation
+
+      const roboFee = clamp(Number(elRobo?.value || 0) / 100, 0, 0.20);
+      const mgrFee  = clamp(Number(elMgr?.value  || 0) / 100, 0, 0.20);
+
+      const n = Math.round(years * 12);
+      const contrib = lump + monthly * n;
+
+      // Nord (no fee here): real return rReal
+      const nord = fvSeries(lump, monthly, rReal, n);
+
+      // Robo / Manager reduce returns by their fees
+      const robo = fvSeries(lump, monthly, (rReal - roboFee), n);
+      const mgr  = fvSeries(lump, monthly, (rReal - mgrFee), n);
+
+      // Bank: nominal stays at contributions; real value erodes by inflation
+      const bankReal = (infl > -0.999) ? (contrib / Math.pow(1 + infl, years)) : contrib;
+
+      return { nord, robo, mgr, contrib, bankReal };
+    }
+
+    function setDeltaRow(rowId, leftId, delta){
+      const row = document.getElementById(rowId);
+      const left = document.getElementById(leftId);
+      if(!row || !left) return;
+
+      const sign = (delta >= 0) ? "+" : "−";
+      const abs = Math.abs(delta);
+
+      left.innerHTML = `<b>${sign}${fmtCHF(abs)}</b>`;
+      row.classList.remove("pos","neg");
+      row.classList.add(delta >= 0 ? "pos" : "neg");
+    }
+
+    function setYear(prefix, o, years){
+      const intNord = o.nord - o.contrib;
+      const intRobo = o.robo - o.contrib;
+      const intMgr  = o.mgr  - o.contrib;
+
+      // ✅ Bank “interest” is negative in real terms (inflation erosion)
+      const intBank = o.bankReal - o.contrib;
+
+      document.getElementById(`contrib${prefix}`).textContent   = fmtCHF(o.contrib);
+
+      document.getElementById(`int${prefix}_nord`).textContent  = fmtCHF(intNord);
+      document.getElementById(`int${prefix}_robo`).textContent  = fmtCHF(intRobo);
+      document.getElementById(`int${prefix}_mgr`).textContent   = fmtCHF(intMgr);
+      document.getElementById(`int${prefix}_bank`).textContent  = fmtCHF(intBank);
+
+      document.getElementById(`tot${prefix}_nord`).textContent  = fmtCHF(o.nord);
+
+      // X multiple (Nord total vs contributions)
+      const x = (o.contrib > 0) ? (o.nord / o.contrib) : 0;
+      const xEl = document.getElementById(`x${prefix}`);
+      if(xEl) xEl.innerHTML = `<b>${x.toFixed(1)}×</b> total contributions`;
+
+      // Deltas (Nord total vs others totals)
+      const dVsRobo = o.nord - o.robo;
+      const dVsMgr  = o.nord - o.mgr;
+      const dVsBank = o.nord - o.bankReal;
+
+      setDeltaRow(`drow${prefix}_robo`, `d${prefix}_robo_left`, dVsRobo);
+      setDeltaRow(`drow${prefix}_mgr`,  `d${prefix}_mgr_left`,  dVsMgr);
+      setDeltaRow(`drow${prefix}_bank`, `d${prefix}_bank_left`, dVsBank);
+    }
+
+    function calc(){
+      if(!elLump) return;
+      setYear("10", stats(10), 10);
+      setYear("20", stats(20), 20);
+      setYear("30", stats(30), 30);
+    }
+
+    [elLump, elMonthly, elReturn, elInfl, elRobo, elMgr].forEach(el=>{
+      if (!el) return;
+      el.addEventListener("input", calc);
+      el.addEventListener("change", calc);
+    });
+
+    calc();
+  </script>
+
+
+<script>
+(function(){
+  const dd = document.querySelector('.langDD');
+  if(!dd) return;
+  const btn = dd.querySelector('.langBtn');
+  const menu = dd.querySelector('.langMenu');
+
+  function close(){
+    dd.classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
+  }
+  function toggle(){
+    const o = dd.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(o));
+  }
+
+  btn.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    toggle();
+  });
+
+  document.addEventListener('click', (e)=>{
+    if(!dd.contains(e.target)) close();
+  });
+
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape') close();
+  });
+})();
+</script>
+
+
+
+</body>
+</html>
